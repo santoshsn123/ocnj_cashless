@@ -8,30 +8,18 @@ import { DataService } from './data.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   title = 'cashless-admin';
   showSideBar:boolean = true;
-  constructor(private router: Router, private data: DataService) {
-
+  constructor(private router: Router, private userstate: DataService) {
+  
   }
+
   ngOnInit() {
-    let currentUrl = this.router.url;
-    
-    console.log(this.data.currentMessage.subscribe(message => {
-      console.log('message : - ', message);
-      if (message == 'remove_sidebar') {
-        this.showSideBar=false;
-      }
-    }));
-
+    this.userstate.getLoginState().subscribe(state => {
+      console.log("check state asasa :- ",state);
+      this.showSideBar = state.login;
+    });
   }
-
-
-
-
-  message: string;
-
-  // ngAfterViewInit() {
-
-  // }
 }

@@ -9,7 +9,13 @@ import { DetailsComponent } from './details/details.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component'; 
+import { LoginComponent } from './login/login.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+
+import { FormGroup , FormControl , ReactiveFormsModule , FormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+// import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @NgModule({
   declarations: [
@@ -18,12 +24,17 @@ import { LoginComponent } from './login/login.component';
     UsersComponent,
     DetailsComponent,
     SidebarComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(reducers),
+    FormsModule,
+    ReactiveFormsModule,
+    // LocalStorage,
   ],
   providers: [],
   bootstrap: [AppComponent]

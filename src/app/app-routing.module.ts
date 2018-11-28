@@ -5,10 +5,14 @@ import { UsersComponent } from './users/users.component';
 import { DetailsComponent } from './details/details.component';
 import { PostsComponent } from './posts/posts.component';
 import { LoginComponent } from './login/login.component';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: '',
+    component: DashboardComponent
+  },
+  {
+    path: 'users',
     component: UsersComponent
   },
   {
