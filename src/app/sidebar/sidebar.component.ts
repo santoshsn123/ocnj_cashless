@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import { ACTION_LOGOUT, ACTION_LOGIN } from '../store/actions/appActions';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -31,6 +32,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log();
+    // console.log("From Sidebar New : - ",this.link);
   }
 
 

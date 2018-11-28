@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
           
           this.ErrorMessage = '';
           this.data.setLoginDetails({action:ACTION_LOGIN,user:data});
-          this.router.navigate(['']);
+          this.router.navigate(['dashboard']);
           this.localSt.setItem('user',data).subscribe(()=>{});
 
         }, 
