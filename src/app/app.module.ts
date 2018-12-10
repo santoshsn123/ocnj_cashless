@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
-import { UsersComponent } from './users/users.component';
+import { UsersComponent,DialogOverviewExampleDialog } from './users/users.component';
 import { DetailsComponent } from './details/details.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
@@ -15,7 +15,10 @@ import { reducers } from './store/reducers';
 
 import { FormGroup , FormControl , ReactiveFormsModule , FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { LocalStorage } from '@ngx-pwa/local-storage';
+
+import {MatDialogModule,MatFormFieldModule,MatInputModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DetailsComponent,
     SidebarComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -34,9 +38,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     StoreModule.forRoot(reducers),
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    
+
     // LocalStorage,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[DialogOverviewExampleDialog],
+  exports:[DialogOverviewExampleDialog]
 })
 export class AppModule { }

@@ -16,4 +16,7 @@ export class UsersService {
   getAllUsers() {
     return this.http.get(this.baseUrl + '/v1/admin/users');
   }
+  saveUser(Object){
+    return this.http.post(this.baseUrl + '/v1/register',Object);
+  }
 }

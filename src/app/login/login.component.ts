@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.ErrorMessage = '';
+    
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
@@ -61,8 +61,14 @@ export class LoginComponent implements OnInit {
 
         }, 
         error => {
-          // console.log("asas@asas.asas : - ",error.error.message);
-          this.ErrorMessage = error.error.message;
+          if(error.message=="Http failure response for (unknown url): 0 Unknown Error")
+          {
+            this.ErrorMessage = "Network Error !!";
+          }
+          else{
+            this.ErrorMessage = error.error.message;
+          }
+          
         })
 
     }
