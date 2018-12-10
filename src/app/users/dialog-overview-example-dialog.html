@@ -94,7 +94,7 @@
           <td>
             <input type="password" class="form-control" formControlName="cpassword">
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">Please Enter Confirm Password </div>
-            <div *ngIf="!passwordmissmatch" class="invalid-feedback">Password Missmatch!</div>
+            <div *ngIf="submitted && !passwordmissmatch" class="invalid-feedback">Password Missmatch!</div>
           </td>
         </tr>
 

@@ -19,4 +19,7 @@ export class UsersService {
   saveUser(Object){
     return this.http.post(this.baseUrl + '/v1/register',Object);
   }
+  deleteUser(uuid){
+    return this.http.delete(this.baseUrl + '/v1/user/'+uuid);
+  }
 }
