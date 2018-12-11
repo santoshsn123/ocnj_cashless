@@ -1,8 +1,10 @@
-<h2 mat-dialog-title>Install Angular</h2>
+<h2 mat-dialog-title>Add User</h2>
+<div class="invalid-feedback"> {{errorMessage}}</div>
 <mat-dialog-content class="mat-typography">
   <div mat-dialog-content>
-      {{errorMessage}}
+     
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+     Data here :-  {{data}}
       <table class="table">
         <tr>
           <td>First Name</td>
@@ -71,7 +73,11 @@
         <tr>
           <td>Address</td>
           <td>
-            <textarea class="form-control" formControlName="address"> </textarea>
+              <!-- <input type="text" google-place type="text"  class="google-place-input"  placeholder="Type to search.."  > -->
+            <input type="text" google-place type="text"
+            class="form-control"
+            placeholder="Type to search.."  formControlName="address">
+
             <div *ngIf="submitted && f.address.errors" class="invalid-feedback">Please Add user address</div>
           </td>
         </tr>
@@ -82,14 +88,14 @@
           <div *ngIf="submitted && f.transactionPin.errors" class="invalid-feedback">Please Add user address</div>
         </td>
       </tr> -->
-        <tr>
+        <tr *ngIf="data.type=='add'">
           <td>Password</td>
           <td>
             <input type="password" class="form-control" formControlName="password">
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">Please Enter Password </div>
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="data.type=='add'">
           <td>Confirm Password</td>
           <td>
             <input type="password" class="form-control" formControlName="cpassword">
@@ -104,6 +110,6 @@
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn btn-primary">Cancel</button>
+  <button mat-button mat-dialog-close class="btn btn-primary">Cancel</button> &nbsp;
   <button mat-button type="submit" (click)="onSubmit()" cdkFocusInitial class="btn btn-primary">Save</button>
 </mat-dialog-actions>

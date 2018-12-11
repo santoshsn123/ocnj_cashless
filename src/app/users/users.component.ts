@@ -14,8 +14,8 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  uuid: string;
+  type: string;
 }
 
 @Component({
@@ -39,22 +39,29 @@ export class UsersComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: "500px",
-      data: { name: this.name, animal: this.animal }
+      data: { uuid: "", type: "add" }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log("The dialog was closed ", result);
       // this.animal = result;
-      if(result=='add')
-      {
+      if (result == "add") {
         this.loadUsers();
         this.showSuccessMessage("New user added successfully");
       }
-      
+      if (result == "edit") {
+        this.loadUsers();
+        this.showSuccessMessage("User Updated successfully");
+      }
     });
   }
 
-  showSuccessMessage=(message)=>{ this.showsuccessMessage = message; setTimeout(()=>{this.closeMessage();},1800) }
+  showSuccessMessage = message => {
+    this.showsuccessMessage = message;
+    setTimeout(() => {
+      this.closeMessage();
+    }, 1800);
+  };
 
   ngOnInit() {
     this.loadUsers();
@@ -62,7 +69,28 @@ export class UsersComponent implements OnInit {
   closeMessage() {
     this.showsuccessMessage = "";
   }
-
+  ActiveInactive = (user) => {
+    console.log(user.activeStatus);
+    if(user.activeStatus==1)
+    {
+      if(confirm('Do you really want to deactivate user?'))
+      {
+        this.updateStatus(user);
+      }
+    }
+    else{
+      if(confirm('Do you really want to Activate user?'))
+      {
+        this.updateStatus(user);
+      }
+    }
+  };
+updateStatus=(user)=>{
+  this.user.changeUserStatus(user,user.uuid).subscribe(status=>{
+    this.loadUsers();
+    this.showSuccessMessage("User status Updated successfully");
+  });
+}
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
@@ -87,6 +115,22 @@ export class UsersComponent implements OnInit {
       console.log("No need to delete anything ");
     }
   }
+
+  editUser = user => {
+    // console.log(user.uuid);
+    user.type = "edit";
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: "500px",
+      data: { uuid: user.uuid, type: "edit" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == "edit") {
+        this.loadUsers();
+        this.showSuccessMessage("User Updated successfully");
+      }
+    });
+  };
 }
 
 /*------------------Popup code--------------------*/
@@ -103,6 +147,7 @@ export class DialogOverviewExampleDialog {
   passwordmissmatch: boolean = false;
   showBankingError: string;
   errorMessage: string;
+  FetchedUser;
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
@@ -125,19 +170,37 @@ export class DialogOverviewExampleDialog {
       bankRoutingNo: ["", []],
       bankAccountNo: ["", []]
     });
+
+    //Fetch data to display in form to update
+    if (this.data.type == "edit") {
+      this.user.getSingleUser(this.data.uuid).subscribe(FetchedUser => {
+        this.FetchedUser = FetchedUser;
+        this.registerForm.patchValue({
+          email: this.FetchedUser.user.email,
+          password: this.FetchedUser.user.password,
+          phone: this.FetchedUser.user.phone,
+          firstName: this.FetchedUser.user.firstName,
+          lastName: this.FetchedUser.user.lastName,
+          isMerchant: this.FetchedUser.user.isMerchant ? "true" : "false",
+          address: this.FetchedUser.location.localAddress,
+          userName: this.FetchedUser.user.userName,
+          cpassword: this.FetchedUser.user.cpassword,
+          bankRoutingNo: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.bankRoutingNo
+            : "",
+          bankAccountNo: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.bankAccountNo
+            : ""
+        });
+        this.registerForm.get("password").clearValidators();
+        this.registerForm.get("password").updateValueAndValidity();
+        this.registerForm.get("cpassword").clearValidators();
+        this.registerForm.get("cpassword").updateValueAndValidity();
+      });
+    }
+    // this.registerForm.value=this.data;
   }
 
-  // changeFieldsChange=()=>{
-  //   console.log(this.isMerchant);
-  //   // if(this.registerForm.value.isMerchant){
-
-  //     // this.registerForm.addControl('bankRoutingNo',[]);
-  //     // this.registerForm.addControl('bankRoutingNo',[validator]);
-  //     // this.registerForm.addControl('bankRoutingNo', new FormControl('', Validators.required));
-  //   // }
-  // }
-
-  // ,{validators:this.checkPasswords} ,{validator:this.passwordMissmatch.MatchPassword}
   get f() {
     return this.registerForm.controls;
   }
@@ -168,7 +231,7 @@ export class DialogOverviewExampleDialog {
       if (!this.passwordmissmatch) {
         return;
       }
-      // console.log("Saving this data : - ",this.registerForm.value);
+      console.log("Saving this data : - ", this.registerForm.value);
 
       if (this.isMerchant == "true") {
         if (
@@ -183,29 +246,55 @@ export class DialogOverviewExampleDialog {
             bankRoutingNo: this.registerForm.value.bankRoutingNo,
             bankAccountNo: this.registerForm.value.bankAccountNo
           };
-          this.user.saveUser(this.registerForm.value).subscribe(
-            data => {
-              console.log("data : - ", data);
-            },
-            error => {
-              this.errorMessage = error.error.message;
-            }
-          );
+          this.saveUser();
+          // this.user.saveUser(this.registerForm.value).subscribe(
+          //   data => {
+          //     console.log("data : - ", data);
+          //   },
+          //   error => {
+          //     this.errorMessage = error.error.message;
+          //   }
+          // );
         }
       } else {
         this.registerForm.value.isMerchant = false;
-        this.user.saveUser(this.registerForm.value).subscribe(
-          data => {
-            // console.log("data : - ", data);
-            this.dialogRef.close("add");
-          },
-          error => {
-            this.errorMessage = error.error.message;
-          }
-        );
+        this.saveUser();
+        // this.user.saveUser(this.registerForm.value).subscribe(
+        //   data => {
+        //     this.dialogRef.close("add");
+        //   },
+        //   error => {
+        //     this.errorMessage = error.error.message;
+        //   }
+        // );
       }
     }
 
     // alert('SUCCESS!! :-)')
   }
+
+  saveUser = () => {
+    if (this.data.type == "add") {
+      this.user.saveUser(this.registerForm.value).subscribe(
+        data => {
+          this.dialogRef.close("add");
+        },
+        error => {
+          this.errorMessage = error.error.message;
+        }
+      );
+    } else {
+      this.user
+        .editUser(this.registerForm.value, this.FetchedUser.user.uuid)
+        .subscribe(
+          data => {
+            console.log("Update Done : ----- ", data);
+            this.dialogRef.close("edit");
+          },
+          error => {
+            this.errorMessage = error.error.message;
+          }
+        );
+    }
+  };
 }

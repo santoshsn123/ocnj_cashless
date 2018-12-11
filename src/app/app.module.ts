@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { LocalStorage } from '@ngx-pwa/local-storage';
 
 import {MatDialogModule,MatFormFieldModule,MatInputModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { GooglePlacesDirective } from './google-places.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatDialogModule,MatFormFieldModule,MatInputModule, MatDialogRef, MAT_DIA
     SidebarComponent,
     LoginComponent,
     DashboardComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    GooglePlacesDirective
   ],
   imports: [
     BrowserModule,
