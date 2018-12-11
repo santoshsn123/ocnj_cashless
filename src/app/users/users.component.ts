@@ -29,6 +29,8 @@ export class UsersComponent implements OnInit {
   name: string;
   showerrorMessage: string = "";
   showsuccessMessage: string = "";
+  currentPage: number = 1;
+  itemsPerPage:number = 10;
 
   constructor(
     private data: DataService,

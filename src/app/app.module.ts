@@ -21,6 +21,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule,MatFormFieldModule,MatInputModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { GooglePlacesDirective } from './google-places.directive';
 
+
+import {NgxPaginationModule} from 'ngx-pagination';
+import { GiftCardComponent } from './gift-card/gift-card.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +35,8 @@ import { GooglePlacesDirective } from './google-places.directive';
     LoginComponent,
     DashboardComponent,
     DialogOverviewExampleDialog,
-    GooglePlacesDirective
+    GooglePlacesDirective,
+    GiftCardComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +48,7 @@ import { GooglePlacesDirective } from './google-places.directive';
     BrowserAnimationsModule,MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    
+    NgxPaginationModule,
 
     // LocalStorage,
   ],
