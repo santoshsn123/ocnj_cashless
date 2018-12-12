@@ -1,35 +1,34 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UsersService {
+  baseUrl: string = "http://localhost:3000/api";
+  constructor(private http: HttpClient) {}
 
-  baseUrl = "http://localhost:3000/api";
-  constructor(private http: HttpClient) { }
-  
   submitLogin(Object) {
-    return this.http.post(this.baseUrl + '/v1/admin/login', Object);
+    return this.http.post(this.baseUrl + "/v1/admin/login", Object);
   }
 
   getAllUsers() {
-    return this.http.get(this.baseUrl + '/v1/admin/users');
+    return this.http.get(this.baseUrl + "/v1/admin/users");
   }
-  saveUser(Object){
-    return this.http.post(this.baseUrl + '/v1/register',Object);
+  saveUser(Object) {
+    return this.http.post(this.baseUrl + "/v1/register", Object);
   }
 
-  editUser=(Object,uuid)=>{
-    return this.http.put(this.baseUrl + '/v1/users/'+uuid,Object);
+  editUser = (Object, uuid) => {
+    return this.http.put(this.baseUrl + "/v1/users/" + uuid, Object);
+  };
+  deleteUser(uuid) {
+    return this.http.delete(this.baseUrl + "/v1/user/" + uuid);
   }
-  deleteUser(uuid){
-    return this.http.delete(this.baseUrl + '/v1/user/'+uuid);
-  }
-  getSingleUser=uuid=>{
-    return this.http.get(this.baseUrl + '/v1/admin/user/'+uuid);
-  }
-  changeUserStatus=(Object,uuid)=>{
-    return this.http.put(this.baseUrl + '/v1/admin/userStatus/'+uuid,Object);
-  }
+  getSingleUser = uuid => {
+    return this.http.get(this.baseUrl + "/v1/admin/user/" + uuid);
+  };
+  changeUserStatus = (Object, uuid) => {
+    return this.http.put(this.baseUrl + "/v1/admin/userStatus/" + uuid, Object);
+  };
 }

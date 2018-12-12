@@ -1,115 +1,190 @@
 <h2 mat-dialog-title>Add User</h2>
-<div class="invalid-feedback"> {{errorMessage}}</div>
+<div class="invalid-feedback">{{ errorMessage }}</div>
 <mat-dialog-content class="mat-typography">
   <div mat-dialog-content>
-     
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-     Data here :-  {{data}}
       <table class="table">
         <tr>
           <td>First Name</td>
           <td>
-            <input class="form-control" formControlName="firstName">
-            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">Please Enter First Name</div>
+            <input class="form-control" formControlName="firstName" />
+            <div
+              *ngIf="submitted && f.firstName.errors"
+              class="invalid-feedback"
+            >
+              Please Enter First Name
+            </div>
           </td>
         </tr>
         <tr>
           <td>Last Name</td>
           <td>
-            <input class="form-control" formControlName="lastName">
-            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">Please Enter Last Name</div>
+            <input class="form-control" formControlName="lastName" />
+            <div
+              *ngIf="submitted && f.lastName.errors"
+              class="invalid-feedback"
+            >
+              Please Enter Last Name
+            </div>
           </td>
         </tr>
         <tr>
           <td>Email</td>
           <td>
-            <input class="form-control" formControlName="email">
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">Please Enter Email</div>
+            <input class="form-control" formControlName="email" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              Please Enter Email
+            </div>
           </td>
         </tr>
         <tr>
           <td>Phone</td>
           <td>
-            <input class="form-control" formControlName="phone">
-            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">Please Enter Phone No.</div>
+            <input class="form-control" formControlName="phone" />
+            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+              Please Enter Phone No.
+            </div>
           </td>
         </tr>
         <tr>
           <td>UserName</td>
           <td>
-            <input class="form-control" formControlName="userName">
-            <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">Please Enter Username</div>
+            <input class="form-control" formControlName="userName" />
+            <div
+              *ngIf="submitted && f.userName.errors"
+              class="invalid-feedback"
+            >
+              Please Enter Username
+            </div>
           </td>
         </tr>
         <tr>
           <td>is Merchant?</td>
           <td>
-              <!-- (click)="changeFieldsChange()" -->
-            <input type="radio" name="isMerchant" [(ngModel)]="isMerchant" formControlName="isMerchant"   value='true'> Yes
-            <input type="radio" name="isMerchant" [(ngModel)]="isMerchant" formControlName="isMerchant"  value='false'> No
-            <div *ngIf="submitted && f.isMerchant.errors" class="invalid-feedback">Please User Type</div>
+            <!-- (click)="changeFieldsChange()" -->
+            <input
+              type="radio"
+              name="isMerchant"
+              [(ngModel)]="isMerchant"
+              formControlName="isMerchant"
+              value="true"
+            />
+            Yes
+            <input
+              type="radio"
+              name="isMerchant"
+              [(ngModel)]="isMerchant"
+              formControlName="isMerchant"
+              value="false"
+            />
+            No
+            <div
+              *ngIf="submitted && f.isMerchant.errors"
+              class="invalid-feedback"
+            >
+              Please User Type
+            </div>
           </td>
         </tr>
         <!-- {{f.isMerchant.value}} -->
-        <tbody *ngIf="f.isMerchant.value=='true'">
-
+        <tbody *ngIf="f.isMerchant.value == 'true'">
           <tr *ngIf="showBankingError">
             <td colspan="2">
-              <div class="invalid-feedback">{{showBankingError}}</div></td>
+              <div class="invalid-feedback">{{ showBankingError }}</div>
+            </td>
           </tr>
           <tr>
             <td>Bank Routing No.</td>
             <td>
-              <input type="text" class="form-control" name="bankRoutingNo" formControlName="bankRoutingNo">
+              <input
+                type="text"
+                class="form-control"
+                name="bankRoutingNo"
+                formControlName="bankRoutingNo"
+              />
             </td>
           </tr>
           <tr>
             <td>Bank Account No.</td>
             <td>
-              <input type="text" class="form-control" name="bankAccountNo" formControlName="bankAccountNo">
+              <input
+                type="text"
+                class="form-control"
+                name="bankAccountNo"
+                formControlName="bankAccountNo"
+              />
             </td>
           </tr>
         </tbody>
         <tr>
           <td>Address</td>
           <td>
-              <!-- <input type="text" google-place type="text"  class="google-place-input"  placeholder="Type to search.."  > -->
-            <input type="text" google-place type="text"
-            class="form-control"
-            placeholder="Type to search.."  formControlName="address">
+            <input
+              type="text"
+              google-place
+              type="text"
+              class="form-control"
+              placeholder="Type to search.."
+              formControlName="address"
+            />
 
-            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">Please Add user address</div>
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+              Please Add user address
+            </div>
           </td>
         </tr>
-        <!-- <tr>
-        <td>Transaction Pin</td>
-        <td>
-          <input class="form-control" formControlName="transactionPin">
-          <div *ngIf="submitted && f.transactionPin.errors" class="invalid-feedback">Please Add user address</div>
-        </td>
-      </tr> -->
-        <tr *ngIf="data.type=='add'">
+        <tr *ngIf="data.type == 'add'">
           <td>Password</td>
           <td>
-            <input type="password" class="form-control" formControlName="password">
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">Please Enter Password </div>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+            />
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
+              Please Enter Password
+            </div>
           </td>
         </tr>
-        <tr *ngIf="data.type=='add'">
+        <tr *ngIf="data.type == 'add'">
           <td>Confirm Password</td>
           <td>
-            <input type="password" class="form-control" formControlName="cpassword">
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">Please Enter Confirm Password </div>
-            <div *ngIf="submitted && !passwordmissmatch" class="invalid-feedback">Password Missmatch!</div>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="cpassword"
+            />
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
+              Please Enter Confirm Password
+            </div>
+            <div
+              *ngIf="submitted && !passwordmissmatch"
+              class="invalid-feedback"
+            >
+              Password Missmatch!
+            </div>
           </td>
         </tr>
-
       </table>
     </form>
   </div>
-
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn btn-primary">Cancel</button> &nbsp;
-  <button mat-button type="submit" (click)="onSubmit()" cdkFocusInitial class="btn btn-primary">Save</button>
+  <button mat-button mat-dialog-close class="btn btn-primary">Cancel</button>
+  &nbsp;
+  <button
+    mat-button
+    type="submit"
+    (click)="onSubmit()"
+    cdkFocusInitial
+    class="btn btn-primary"
+  >
+    Save
+  </button>
 </mat-dialog-actions>

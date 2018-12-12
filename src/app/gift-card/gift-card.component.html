@@ -1,3 +1,112 @@
-<p>
-  gift-card works!
-</p>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="#"> <em class="fa fa-home"></em> </a>
+      </li>
+      <li class="active">Gift Card</li>
+    </ol>
+  </div>
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-lg-12"><h1 class="page-header">Gift Card</h1></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default articles">
+        <div class="panel-heading">
+          Gift Card Management
+          <ul class="pull-right panel-settings panel-button-tab-right">
+            <li class="dropdown">
+              <a
+                class="pull-right dropdown-toggle"
+                data-toggle="dropdown"
+                (click)="openDialog()"
+              >
+                <em class="fas fa-plus"></em>
+                <!-- <i class="fas fa-plus"></i> -->
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
+          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
+          }}<a
+            href="javascript:void(0);"
+            (click)="closeMessage()"
+            class="pull-right"
+            ><em class="fa fa-lg fa-close"></em
+          ></a>
+        </div>
+        <div class="panel-body articles-container">
+          <table class="table">
+            <tr>
+              <td>#</td>
+              <td>Card Code</td>
+              <td>Expiry Date</td>
+              <td>Reedeem Status</td>
+              <!-- <td>Used By</td> -->
+              <td>Action</td>
+            </tr>
+            <tr
+              *ngFor="
+                let card of (giftCards
+                  | paginate
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
+                let i = index
+              "
+            >
+              <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+              <td>{{ card.uniqueCode }}</td>
+              <td>{{ card.giftExpiryDate }}</td>
+              <td>{{ card.redeemedStatus == 0 ? "unused" : "used" }}</td>
+              <!-- <td>{{ card.usedBy }}</td> -->
+              <td>
+                <a href="javascript:void(0);" (click)="deleteCard(card)"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            <!--
+              <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
+                <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.userName }}</td>
+                <td>
+                  <a href="javascript:void(0);" (click)="ActiveInactive(user)"
+                    ><span *ngIf="user.activeStatus == 1">Active</span>
+                    <span *ngIf="user.activeStatus != 1">InActive</span></a
+                  >
+                </td>
+                <td>{{ user.phone }}</td>
+                <td>
+                  <a href="javascript:void(0);" (click)="editUser(user)">Edit</a>
+                  /
+                  <a href="javascript:void(0);" (click)="deleteUser(user)"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+            -->
+          </table>
+
+          <pagination-controls
+            (pageChange)="currentPage = $event"
+          ></pagination-controls>
+        </div>
+      </div>
+
+      <div class="col-sm-12">
+        <!--
+          <p class="back-link">
+             <a href="https://www.medialoot.com"></a>
+          </p>
+        -->
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>

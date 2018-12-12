@@ -1,15 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+
+import { GiftCardService } from "../services/gift-card/gift-card.service";
 
 @Component({
-  selector: 'app-gift-card',
-  templateUrl: './gift-card.component.html',
-  styleUrls: ['./gift-card.component.scss']
+  selector: "app-gift-card",
+  templateUrl: "./gift-card.component.html",
+  styleUrls: ["./gift-card.component.scss"]
 })
 export class GiftCardComponent implements OnInit {
-
-  constructor() { }
+  showsuccessMessage: string = "";
+  giftCards;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  constructor(private gift: GiftCardService) {}
 
   ngOnInit() {
+    this.getAllCards();
   }
 
+  getAllCards = () => {
+    console.log("Get the data : - ");
+    this.gift.getAllCards().subscribe(data => {
+      console.log("Get the data : - ", data);
+      this.giftCards = data;
+    });
+  };
+
+  deleteCard = card => {
+    if (confirm("Do you really want to delete this card?")) {
+      this.gift.deleteCard(card.uuid).subscribe(status => {
+        console.log(status);
+        this.getAllCards();
+        this.showSuccessMessage("Card deleted successfully");
+      });
+    }
+  };
+
+  showSuccessMessage = message => {
+    this.showsuccessMessage = message;
+    setTimeout(() => {
+      this.closeMessage();
+    }, 1800);
+  };
+
+  closeMessage() {
+    this.showsuccessMessage = "";
+  }
 }

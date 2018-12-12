@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
   showerrorMessage: string = "";
   showsuccessMessage: string = "";
   currentPage: number = 1;
-  itemsPerPage:number = 10;
+  itemsPerPage: number = 10;
 
   constructor(
     private data: DataService,
@@ -71,28 +71,24 @@ export class UsersComponent implements OnInit {
   closeMessage() {
     this.showsuccessMessage = "";
   }
-  ActiveInactive = (user) => {
+  ActiveInactive = user => {
     console.log(user.activeStatus);
-    if(user.activeStatus==1)
-    {
-      if(confirm('Do you really want to deactivate user?'))
-      {
+    if (user.activeStatus == 1) {
+      if (confirm("Do you really want to deactivate user?")) {
         this.updateStatus(user);
       }
-    }
-    else{
-      if(confirm('Do you really want to Activate user?'))
-      {
+    } else {
+      if (confirm("Do you really want to Activate user?")) {
         this.updateStatus(user);
       }
     }
   };
-updateStatus=(user)=>{
-  this.user.changeUserStatus(user,user.uuid).subscribe(status=>{
-    this.loadUsers();
-    this.showSuccessMessage("User status Updated successfully");
-  });
-}
+  updateStatus = user => {
+    this.user.changeUserStatus(user, user.uuid).subscribe(status => {
+      this.loadUsers();
+      this.showSuccessMessage("User status Updated successfully");
+    });
+  };
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
