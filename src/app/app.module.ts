@@ -37,8 +37,10 @@ import { GooglePlacesDirective } from "./google-places.directive";
 
 import { NgxPaginationModule } from "ngx-pagination";
 import { GiftCardComponent } from "./gift-card/gift-card.component";
-import { TransationsComponent } from './transations/transations.component';
+import { TransationsComponent } from "./transations/transations.component";
 
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { FilterPipe } from "./filter.pipe";
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +53,8 @@ import { TransationsComponent } from './transations/transations.component';
     DialogOverviewExampleDialog,
     GooglePlacesDirective,
     GiftCardComponent,
-    TransationsComponent
+    TransationsComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { TransationsComponent } from './transations/transations.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatAutocompleteModule
 
     // LocalStorage,
   ],

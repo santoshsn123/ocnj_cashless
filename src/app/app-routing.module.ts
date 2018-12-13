@@ -7,6 +7,8 @@ import { PostsComponent } from "./posts/posts.component";
 import { LoginComponent } from "./login/login.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GiftCardComponent } from "./gift-card/gift-card.component";
+import { TransationsComponent } from "./transations/transations.component";
+
 const routes: Routes = [
   {
     path: "dashboard",
@@ -27,6 +29,10 @@ const routes: Routes = [
   {
     path: "giftCard",
     component: GiftCardComponent
+  },
+  {
+    path: "transactions",
+    component: TransationsComponent
   },
   {
     path: "login",

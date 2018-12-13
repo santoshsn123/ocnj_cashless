@@ -31,4 +31,8 @@ export class UsersService {
   changeUserStatus = (Object, uuid) => {
     return this.http.put(this.baseUrl + "/v1/admin/userStatus/" + uuid, Object);
   };
+
+  getMerchants = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/getMerchants/");
+  };
 }
