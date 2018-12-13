@@ -6,6 +6,7 @@ import { MatAutocompleteModule } from "@angular/material";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { Angular2CsvModule } from "angular2-csv";
 
 @Component({
   selector: "app-transations",
@@ -48,7 +49,7 @@ export class TransationsComponent implements OnInit {
   };
 
   myControl = new FormControl();
-  options: string[] = ["One", "Two", "Three"];
+  // options: string[] = ["One", "Two", "Three"];
   filteredOptions: Observable<string[]>;
 
   private _filter(value: string): string[] {
@@ -61,4 +62,37 @@ export class TransationsComponent implements OnInit {
   clickedHere = () => {
     console.log("this is here :- ", this.filteredOptions);
   };
+
+  options = {
+    fieldSeparator: ",",
+    quoteStrings: '"',
+    decimalseparator: ".",
+    showLabels: false,
+    headers: [
+      "Amount",
+      "CreatedAt",
+      "Description",
+      "From_firstname",
+      "To_firstname",
+      "Transaction_id",
+      "UpdatedAt"
+    ],
+    showTitle: true,
+    title: "asfasf",
+    useBom: false,
+    removeNewLines: true,
+    keys: [
+      "amount",
+      "createdAt",
+      "description",
+      "from_firstname",
+      "to_firstname",
+      "transaction_id",
+      "updatedAt"
+    ]
+  };
+
+  // openDialog = () => {
+  //   // new Angular2CsvModule(this.transactions, "My Report", this.options);
+  // };
 }

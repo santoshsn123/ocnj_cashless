@@ -18,13 +18,21 @@
           Transactions
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
-              <a
-                class="pull-right dropdown-toggle"
-                data-toggle="dropdown"
-                (click)="openDialog()"
-              >
-                <em class="fas fa-plus"></em>
-              </a>
+              <!--
+                <a
+                  class="pull-right dropdown-toggle"
+                  data-toggle="dropdown"
+                  (click)="openDialog()"
+                >
+                  <em class="fa fa-cloud-download"></em>
+                </a>
+              -->
+              <angular2csv
+                class="fa fa-cloud-download"
+                [data]="transactions | filter: merchantName"
+                filename="transactions"
+                [options]="options"
+              ></angular2csv>
             </li>
           </ul>
         </div>
@@ -42,7 +50,7 @@
             <mat-form-field class="example-full-width">
               <input
                 type="text"
-                placeholder="Pick one"
+                placeholder="Select Merchant"
                 aria-label="Number"
                 matInput
                 [formControl]="myControl"

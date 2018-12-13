@@ -41,6 +41,9 @@ import { TransationsComponent } from "./transations/transations.component";
 
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FilterPipe } from "./filter.pipe";
+
+import { Angular2CsvModule } from "angular2-csv";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +71,8 @@ import { FilterPipe } from "./filter.pipe";
     MatFormFieldModule,
     MatInputModule,
     NgxPaginationModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    Angular2CsvModule
 
     // LocalStorage,
   ],
