@@ -8,6 +8,7 @@ import { LoginComponent } from "./login/login.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GiftCardComponent } from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
+import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
     path: "transactions",
     component: TransationsComponent
   },
+  {
+    path: "purchasedBucks",
+    component: PurchasedBucksComponent
+  },
+
   {
     path: "login",
     component: LoginComponent

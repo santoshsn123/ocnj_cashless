@@ -11,4 +11,7 @@ export class TransactionsService {
   getAllTransactions = () => {
     return this.http.get(this.baseUrl + "/v1/admin/transactions");
   };
+  getPurchasedBucks = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/pruchasedBucks");
+  };
 }

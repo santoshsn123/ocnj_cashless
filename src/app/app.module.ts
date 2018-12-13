@@ -43,6 +43,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { FilterPipe } from "./filter.pipe";
 
 import { Angular2CsvModule } from "angular2-csv";
+import { PurchasedBucksComponent } from './purchased-bucks/purchased-bucks.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { Angular2CsvModule } from "angular2-csv";
     GooglePlacesDirective,
     GiftCardComponent,
     TransationsComponent,
-    FilterPipe
+    FilterPipe,
+    PurchasedBucksComponent
   ],
   imports: [
     BrowserModule,
