@@ -8,6 +8,7 @@ export class UsersService {
   baseUrl: string = "http://localhost:3000/api";
   constructor(private http: HttpClient) {}
 
+  userData;
   submitLogin(Object) {
     return this.http.post(this.baseUrl + "/v1/admin/login", Object);
   }
@@ -34,5 +35,14 @@ export class UsersService {
 
   getMerchants = () => {
     return this.http.get(this.baseUrl + "/v1/admin/getMerchants/");
+  };
+  setUserData = data => (this.userData = data);
+  getUserData = () => {
+    return this.userData;
+  };
+  getAllTransactionsForUser = uuid => {
+    return this.http.get(
+      this.baseUrl + "/v1/admin/completeTransactionForUser/" + uuid
+    );
   };
 }

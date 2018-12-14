@@ -12,6 +12,7 @@ import {
   MatInputModule
 } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 export interface DialogData {
   uuid: string;
@@ -35,7 +36,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private data: DataService,
     private user: UsersService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   openDialog(): void {
@@ -57,6 +59,11 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
+  viewTransactions = user => {
+    this.user.setUserData(user);
+    this.router.navigate(["posts"]);
+  };
 
   showSuccessMessage = message => {
     this.showsuccessMessage = message;
