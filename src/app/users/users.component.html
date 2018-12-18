@@ -55,12 +55,12 @@
           <table class="table">
             <tr>
               <td>#</td>
-              <td>First Name</td>
-              <td>Last Name</td>
+              <td>Name</td>
               <td>Email</td>
               <td>Username</td>
               <td>Active Status</td>
               <td>Phone</td>
+              <td>User Type</td>
               <td>Action</td>
             </tr>
             <!-- {{users}} -->
@@ -73,8 +73,7 @@
               "
             >
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
+              <td>{{ user.firstName + " " + user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.userName }}</td>
               <td>
@@ -84,15 +83,27 @@
                 >
               </td>
               <td>{{ user.phone }}</td>
+              <td>{{ user.isMerchant ? "Merchant" : "User" }}</td>
               <td>
-                <a href="javascript:void(0);" (click)="editUser(user)">Edit</a>
+                <a
+                  href="javascript:void(0);"
+                  title="Edit User"
+                  (click)="editUser(user)"
+                  ><em class="fa fa-pencil-square"></em
+                ></a>
                 /
-                <a href="javascript:void(0);" (click)="deleteUser(user)"
-                  >Delete</a
+                <a
+                  href="javascript:void(0);"
+                  title="Delete User"
+                  (click)="deleteUser(user)"
+                  ><em class="fa  fa-trash"></em></a
                 >/
-                <a href="javascript:void(0);" (click)="viewTransactions(user)"
-                  >Transactions</a
-                >
+                <a
+                  href="javascript:void(0);"
+                  title="View Transactions"
+                  (click)="viewTransactions(user)"
+                  ><em class="fa  fa-eye"></em
+                ></a>
               </td>
             </tr>
           </table>

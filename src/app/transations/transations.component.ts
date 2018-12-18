@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { TransactionsService } from "../services/transactions/transactions.service";
 import { UsersService } from "../services/users/users.service";
-import { MatAutocompleteModule } from "@angular/material";
+import { MatAutocompleteModule, NativeDateAdapter } from "@angular/material";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";

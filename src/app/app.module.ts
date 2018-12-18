@@ -31,7 +31,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
+  MatNativeDateModule
 } from "@angular/material";
 import { GooglePlacesDirective } from "./google-places.directive";
 
@@ -40,10 +41,12 @@ import { GiftCardComponent } from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
 
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+
 import { FilterPipe } from "./filter.pipe";
 
 import { Angular2CsvModule } from "angular2-csv";
-import { PurchasedBucksComponent } from './purchased-bucks/purchased-bucks.component';
+import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 
 @NgModule({
   declarations: [
@@ -74,11 +77,13 @@ import { PurchasedBucksComponent } from './purchased-bucks/purchased-bucks.compo
     MatInputModule,
     NgxPaginationModule,
     MatAutocompleteModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    MatDatepickerModule,
+    MatNativeDateModule
 
     // LocalStorage,
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent],
   entryComponents: [DialogOverviewExampleDialog],
   exports: [DialogOverviewExampleDialog]
