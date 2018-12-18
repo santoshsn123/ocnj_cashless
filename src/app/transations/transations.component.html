@@ -21,6 +21,7 @@
             [formControl]="myControl"
             [matAutocomplete]="auto"
             [(ngModel)]="merchantName"
+            (input)="clickedFunction()"
           />
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option
@@ -72,7 +73,15 @@
             <li class="dropdown">
               <angular2csv
                 class="fa fa-cloud-download"
-                [data]="transactions | filter: merchantName"
+                [data]="
+                  transactions
+                    | filter
+                      : {
+                          searchString: this.merchantName,
+                          startDate: this.startDate,
+                          endDate: this.endDate
+                        }
+                "
                 filename="transactions"
                 [options]="options"
               ></angular2csv>
@@ -107,7 +116,12 @@
                 let trans of (transactions
                   | paginate
                     : { itemsPerPage: itemsPerPage, currentPage: currentPage }
-                  | filter: merchantName);
+                  | filter
+                    : {
+                        searchString: this.merchantName,
+                        startDate: this.startDate,
+                        endDate: this.endDate
+                      });
                 let i = index
               "
             >

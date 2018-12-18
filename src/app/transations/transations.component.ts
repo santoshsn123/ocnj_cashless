@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChanges } from "@angular/core";
 import { TransactionsService } from "../services/transactions/transactions.service";
 import { UsersService } from "../services/users/users.service";
 import { MatAutocompleteModule, NativeDateAdapter } from "@angular/material";
@@ -18,20 +18,29 @@ export class TransationsComponent implements OnInit {
   constructor(private trans: TransactionsService, private user: UsersService) {}
 
   transactions;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 10;
   currentPage: number = 1;
   getMerchants;
+  searchParams;
+  merchantName;
+  endDate;
+  startDate;
   ngOnInit() {
     console.log("We will call from here ");
     this.getAllTransactions();
     this.getAllMerchants();
   }
+  clickedFunction = () => {
+    console.log("called when changed ");
+  };
+
   getAllTransactions = () => {
     this.trans.getAllTransactions().subscribe(data => {
       console.log("This is the transactions : - ", data);
       this.transactions = data;
     });
   };
+
   getAllMerchants = () => {
     this.user.getMerchants().subscribe(data => {
       this.getMerchants = data;

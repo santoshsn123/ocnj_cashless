@@ -16,6 +16,10 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
+    path: "",
+    component: DashboardComponent
+  },
+  {
     path: "users",
     component: UsersComponent
   },
@@ -39,7 +43,6 @@ const routes: Routes = [
     path: "purchasedBucks",
     component: PurchasedBucksComponent
   },
-
   {
     path: "login",
     component: LoginComponent
