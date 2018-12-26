@@ -47,7 +47,10 @@ export class UsersService {
       this.baseUrl + "/v1/admin/completeTransactionForUser/" + uuid
     );
   };
-  changePassword = Object => {
-    return this.http.post(this.baseUrl + "/v1/admin/changePassword/", Object);
+  changePassword = (Object, uuid) => {
+    return this.http.post(
+      this.baseUrl + "/v1/admin/changePassword/" + uuid,
+      Object
+    );
   };
 }

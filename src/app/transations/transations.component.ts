@@ -26,17 +26,13 @@ export class TransationsComponent implements OnInit {
   endDate;
   startDate;
   ngOnInit() {
-    console.log("We will call from here ");
     this.getAllTransactions();
     this.getAllMerchants();
   }
-  clickedFunction = () => {
-    console.log("called when changed ");
-  };
+  clickedFunction = () => {};
 
   getAllTransactions = () => {
     this.trans.getAllTransactions().subscribe(data => {
-      console.log("This is the transactions : - ", data);
       this.transactions = data;
     });
   };
@@ -46,10 +42,8 @@ export class TransationsComponent implements OnInit {
       this.getMerchants = data;
 
       this.getMerchants = this.getMerchants.map((item, index) => {
-        // console.log("item.firstName :- ", item.firstName);
         return item.firstName;
       });
-      console.log(this.getMerchants);
 
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(""),
@@ -69,9 +63,7 @@ export class TransationsComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  clickedHere = () => {
-    console.log("this is here :- ", this.filteredOptions);
-  };
+  clickedHere = () => {};
 
   options = {
     fieldSeparator: ",",

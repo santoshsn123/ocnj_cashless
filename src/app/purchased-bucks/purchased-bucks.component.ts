@@ -19,7 +19,6 @@ export class PurchasedBucksComponent implements OnInit {
 
   getPrchasedBucks = () => {
     this.trans.getPurchasedBucks().subscribe(data => {
-      console.log("Data : - ", data);
       this.purchasedBuck = data;
     });
   };

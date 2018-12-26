@@ -19,9 +19,7 @@ export class GiftCardComponent implements OnInit {
   }
 
   getAllCards = () => {
-    console.log("Get the data : - ");
     this.gift.getAllCards().subscribe(data => {
-      console.log("Get the data : - ", data);
       this.giftCards = data;
     });
   };
@@ -29,7 +27,6 @@ export class GiftCardComponent implements OnInit {
   deleteCard = card => {
     if (confirm("Do you really want to delete this card?")) {
       this.gift.deleteCard(card.uuid).subscribe(status => {
-        console.log(status);
         this.getAllCards();
         this.showSuccessMessage("Card deleted successfully");
       });

@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText): any[] {
-    console.log(items, searchText);
     if (!items) return [];
     // if (!searchText) return items;
     if (searchText) {
@@ -15,10 +14,8 @@ export class FilterPipe implements PipeTransform {
       ) {
         return items;
       } else {
-        console.log("searchText.searchString");
         if (searchText.searchString) {
           items = items.filter(it => {
-            console.log("inside textsearch ");
             return it.to_firstname == searchText.searchString ||
               it.from_firstname == searchText.searchString
               ? it
@@ -49,7 +46,7 @@ export class FilterPipe implements PipeTransform {
             }
           });
         }
-        console.log(items);
+
         return items;
       }
     }

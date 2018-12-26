@@ -27,7 +27,6 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.userValue = this.user.getUserData();
-    console.log(this.userValue);
     if (!this.userValue) {
       this.router.navigate(["users"]);
     }
@@ -37,7 +36,6 @@ export class PostsComponent implements OnInit {
   getAllTransactionForUser = uuid => {
     this.user.getAllTransactionsForUser(uuid).subscribe(dataNew => {
       this.userdata = dataNew;
-      console.log(this.userdata);
       this.gift_card_transaction = this.userdata.gift_card_transaction;
       this.purchased_transaction = this.userdata.purchased_transaction;
       this.bucks = this.userdata.bucks;

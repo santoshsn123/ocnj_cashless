@@ -47,7 +47,6 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed ", result);
       // this.animal = result;
       if (result == "add") {
         this.loadUsers();
@@ -79,7 +78,6 @@ export class UsersComponent implements OnInit {
     this.showsuccessMessage = "";
   }
   ActiveInactive = user => {
-    console.log(user.activeStatus);
     if (user.activeStatus == 1) {
       if (confirm("Do you really want to deactivate user?")) {
         this.updateStatus(user);
@@ -99,15 +97,12 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
-      console.log(data);
     });
   }
   deleteUser(user) {
     if (confirm("Do you really want to delete this user ?")) {
-      console.log("Here is user which we need to delete :- ", user);
       this.user.deleteUser(user.uuid).subscribe(
         data => {
-          console.log("Data after delete :-  ", data);
           this.loadUsers(); //loading Users after deleting users.
           this.showerrorMessage = "";
           this.showSuccessMessage("User Deleted successfully");
@@ -117,12 +112,10 @@ export class UsersComponent implements OnInit {
         }
       );
     } else {
-      console.log("No need to delete anything ");
     }
   }
 
   editUser = user => {
-    // console.log(user.uuid);
     user.type = "edit";
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: "500px",
@@ -214,7 +207,6 @@ export class DialogOverviewExampleDialog {
   }
 
   checkPasswords() {
-    console.log(this.registerForm.controls.password.value);
     this.registerForm.controls.password.value ==
     this.registerForm.controls.cpassword.value
       ? (this.passwordmissmatch = true)
@@ -236,7 +228,6 @@ export class DialogOverviewExampleDialog {
       if (!this.passwordmissmatch) {
         return;
       }
-      console.log("Saving this data : - ", this.registerForm.value);
 
       if (this.isMerchant == "true") {
         if (
@@ -252,14 +243,6 @@ export class DialogOverviewExampleDialog {
             bankAccountNo: this.registerForm.value.bankAccountNo
           };
           this.saveUser();
-          // this.user.saveUser(this.registerForm.value).subscribe(
-          //   data => {
-          //     console.log("data : - ", data);
-          //   },
-          //   error => {
-          //     this.errorMessage = error.error.message;
-          //   }
-          // );
         }
       } else {
         this.registerForm.value.isMerchant = false;
@@ -293,7 +276,6 @@ export class DialogOverviewExampleDialog {
         .editUser(this.registerForm.value, this.FetchedUser.user.uuid)
         .subscribe(
           data => {
-            console.log("Update Done : ----- ", data);
             this.dialogRef.close("edit");
           },
           error => {
