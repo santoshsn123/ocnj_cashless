@@ -47,6 +47,7 @@ import { FilterPipe } from "./filter.pipe";
 
 import { Angular2CsvModule } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.compo
     GiftCardComponent,
     TransationsComponent,
     FilterPipe,
-    PurchasedBucksComponent
+    PurchasedBucksComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

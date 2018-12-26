@@ -5,6 +5,7 @@ import { ACTION_LOGOUT, ACTION_LOGIN } from "../store/actions/appActions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UsersService } from "../services/users/users.service";
 import { LocalStorage } from "@ngx-pwa/local-storage";
+import { NG_ANIMATING_CLASSNAME } from "@angular/animations/browser/src/util";
 
 @Component({
   selector: "app-login",

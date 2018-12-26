@@ -17,18 +17,19 @@
       <div class="panel panel-default articles">
         <div class="panel-heading">
           Gift Card Management
-          <ul class="pull-right panel-settings panel-button-tab-right">
-            <li class="dropdown">
-              <a
-                class="pull-right dropdown-toggle"
-                data-toggle="dropdown"
-                (click)="openDialog()"
-              >
-                <em class="fas fa-plus"></em>
-                <!-- <i class="fas fa-plus"></i> -->
-              </a>
-            </li>
-          </ul>
+          <!--
+            <ul class="pull-right panel-settings panel-button-tab-right">
+              <li class="dropdown">
+                <a
+                  class="pull-right dropdown-toggle"
+                  data-toggle="dropdown"
+                  (click)="openDialog()"
+                >
+                  <em class="fas fa-plus"></em>
+                </a>
+              </li>
+            </ul>
+          -->
         </div>
         <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
           <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage

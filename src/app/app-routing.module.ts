@@ -9,14 +9,11 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GiftCardComponent } from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
+import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 const routes: Routes = [
   {
     path: "dashboard",
-    component: DashboardComponent
-  },
-  {
-    path: "",
     component: DashboardComponent
   },
   {
@@ -46,6 +43,10 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "changePassword",
+    component: ChangePasswordComponent
   }
 ];
 

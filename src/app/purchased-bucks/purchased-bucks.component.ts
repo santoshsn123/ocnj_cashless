@@ -10,6 +10,7 @@ export class PurchasedBucksComponent implements OnInit {
   constructor(private trans: TransactionsService) {}
 
   purchasedBuck;
+  showsuccessMessage;
   itemsPerPage: number = 10;
   currentPage: number = 1;
   ngOnInit() {

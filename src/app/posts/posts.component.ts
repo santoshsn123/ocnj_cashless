@@ -10,7 +10,6 @@ import { Router } from "@angular/router";
   styleUrls: ["./posts.component.scss"]
 })
 export class PostsComponent implements OnInit {
-  posts$: Object;
   userValue;
   gift_card_transaction;
   purchased_transaction;
@@ -27,8 +26,6 @@ export class PostsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.data.getPosts().subscribe(data => (this.posts$ = data));
-    // console.log(this.posts$);
     this.userValue = this.user.getUserData();
     console.log(this.userValue);
     if (!this.userValue) {
