@@ -1,0 +1,149 @@
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="#"> <em class="fa fa-home"></em> </a>
+      </li>
+      <li class="active">Transactions</li>
+    </ol>
+  </div>
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6 ">
+      <!-- <h1 class="page-header">Transactions</h1> -->
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            placeholder="Select Merchant"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+            [(ngModel)]="merchantName"
+            (input)="clickedFunction()"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of (filteredOptions | async)"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="startDt"
+            [(ngModel)]="startDate"
+            placeholder="Start Date"
+            name="startDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="startDt"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #startDt></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="endDt"
+            [(ngModel)]="endDate"
+            placeholder="End Date"
+            name="endDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endDt"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #endDt></mat-datepicker>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default articles">
+        <div class="panel-heading">
+          Transactions
+          <ul class="pull-right panel-settings panel-button-tab-right">
+            <li class="dropdown">
+              <angular2csv
+                class="fa fa-cloud-download removeButton"
+                [data]="
+                  transactions
+                    | filter
+                      : {
+                          searchString: this.merchantName,
+                          startDate: this.startDate,
+                          endDate: this.endDate
+                        }
+                "
+                filename="transactions"
+                [options]="options"
+              >
+              </angular2csv>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
+          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
+          }}<a
+            href="javascript:void(0);"
+            (click)="closeMessage()"
+            class="pull-right"
+            ><em class="fa fa-lg fa-close"></em
+          ></a>
+        </div> -->
+        <div class="panel-body articles-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>Transaction Id</td>
+                <td>Bucks</td>
+                <td>Description</td>
+                <td>Date Time</td>
+                <td>From</td>
+                <td>To</td>
+                <!-- <td>Action</td> -->
+              </tr>
+            </thead>
+            <tr
+              *ngFor="
+                let trans of (transactions
+                  | paginate
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage }
+                  | filter
+                    : {
+                        searchString: this.merchantName,
+                        startDate: this.startDate,
+                        endDate: this.endDate
+                      });
+                let i = index
+              "
+            >
+              <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+              <td>{{ trans.transaction_id }}</td>
+              <td>{{ trans.amount }}</td>
+              <td>{{ trans.description }}</td>
+              <td>{{ trans.createdAt | date: "dd-MM-yyyy" }}</td>
+              <td>{{ trans.from_firstname }}</td>
+              <td>{{ trans.to_firstname }}</td>
+              <!-- <td>Action</td> -->
+            </tr>
+          </table>
+
+          <pagination-controls
+            (pageChange)="currentPage = $event"
+          ></pagination-controls>
+        </div>
+      </div>
+
+      <div class="col-sm-12"></div>
+    </div>
+  </div>
+</div>
