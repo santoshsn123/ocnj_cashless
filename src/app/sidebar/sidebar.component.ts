@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { DataService } from "../data.service";
 import { ACTION_LOGOUT, ACTION_LOGIN } from "../store/actions/appActions";
-import { LocalStorage } from "@ngx-pwa/local-storage";
 
 @Component({
   selector: "app-sidebar",
@@ -10,26 +9,21 @@ import { LocalStorage } from "@ngx-pwa/local-storage";
   styleUrls: ["./sidebar.component.scss"]
 })
 export class SidebarComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private data: DataService,
-    private localSt: LocalStorage
-  ) {
-    this.localSt.getItem("user").subscribe(user => {
-      if (!user && router.url != "/login") {
-        this.router.navigate(["login"]);
-      }
+  constructor(private router: Router, private data: DataService) {
+    let user = localStorage.getItem("user");
+    if (!user && router.url != "/login") {
+      this.router.navigate(["login"]);
+    }
 
-      if (user && router.url == "/login") {
-        this.router.navigate([""]);
-      }
-    });
+    if (user && router.url == "/login") {
+      this.router.navigate([""]);
+    }
   }
 
   ngOnInit() {}
 
   logout() {
-    this.localSt.clear().subscribe(() => {});
+    localStorage.clear();
     this.router.navigate(["login"]);
   }
 }

@@ -8,6 +8,7 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Angular2CsvModule } from "angular2-csv";
+import { DataService } from "../data.service";
 
 @Component({
   selector: "app-transations",
@@ -15,7 +16,11 @@ import { Angular2CsvModule } from "angular2-csv";
   styleUrls: ["./transations.component.scss"]
 })
 export class TransationsComponent implements OnInit {
-  constructor(private trans: TransactionsService, private user: UsersService) {}
+  constructor(
+    private trans: TransactionsService,
+    private user: UsersService,
+    private dataservice: DataService
+  ) {}
 
   transactions;
   itemsPerPage: number = 10;
@@ -32,9 +37,14 @@ export class TransationsComponent implements OnInit {
   clickedFunction = () => {};
 
   getAllTransactions = () => {
-    this.trans.getAllTransactions().subscribe(data => {
-      this.transactions = data;
-    });
+    this.trans.getAllTransactions().subscribe(
+      data => {
+        this.transactions = data;
+      },
+      error => {
+        this.dataservice.checkAuthentication(error);
+      }
+    );
   };
 
   getAllMerchants = () => {

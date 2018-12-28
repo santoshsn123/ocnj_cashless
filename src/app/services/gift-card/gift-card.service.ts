@@ -18,4 +18,7 @@ export class GiftCardService {
   deleteCard = uuid => {
     return this.http.delete(this.baseUrl + "/v1/card/" + uuid);
   };
+  createGiftCards = Object => {
+    return this.http.post(this.baseUrl + "/v1/card/", Object);
+  };
 }

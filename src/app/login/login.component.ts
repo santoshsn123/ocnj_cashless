@@ -4,7 +4,6 @@ import { DataService } from "../data.service";
 import { ACTION_LOGOUT, ACTION_LOGIN } from "../store/actions/appActions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UsersService } from "../services/users/users.service";
-import { LocalStorage } from "@ngx-pwa/local-storage";
 import { NG_ANIMATING_CLASSNAME } from "@angular/animations/browser/src/util";
 
 @Component({
@@ -24,11 +23,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private data: DataService,
     private formBuilder: FormBuilder,
-    private user: UsersService,
-    private localSt: LocalStorage
+    private user: UsersService
   ) {
     this.visibal = "yes new one";
-    console.log(router.url);
     this.data.setPageasLogin({ action: ACTION_LOGOUT });
   }
 
@@ -60,7 +57,7 @@ export class LoginComponent implements OnInit {
             this.ErrorMessage = "";
             this.data.setLoginDetails({ action: ACTION_LOGIN, user: data });
             this.router.navigate(["dashboard"]);
-            this.localSt.setItem("user", data).subscribe(() => {});
+            localStorage.setItem("user", JSON.stringify(data));
           },
           error => {
             console.log("Data :- ", error);

@@ -11,7 +11,7 @@ import {
 import { DetailsComponent } from "./details/details.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoginComponent } from "./login/login.component";
 import { StoreModule } from "@ngrx/store";
 import { reducers } from "./store/reducers";
@@ -24,8 +24,6 @@ import {
 } from "@angular/forms";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-// import { LocalStorage } from '@ngx-pwa/local-storage';
-
 import {
   MatDialogModule,
   MatFormFieldModule,
@@ -37,7 +35,10 @@ import {
 import { GooglePlacesDirective } from "./google-places.directive";
 
 import { NgxPaginationModule } from "ngx-pagination";
-import { GiftCardComponent } from "./gift-card/gift-card.component";
+import {
+  GiftCardComponent,
+  createGiftCard
+} from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
 
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -47,7 +48,9 @@ import { FilterPipe } from "./filter.pipe";
 
 import { Angular2CsvModule } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from "./change-password/change-password.component";
+
+import { AuthenticationServiceService } from "./services/Autherisation/authentication-service.service";
 
 @NgModule({
   declarations: [
@@ -59,6 +62,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     LoginComponent,
     DashboardComponent,
     DialogOverviewExampleDialog,
+    createGiftCard,
     GooglePlacesDirective,
     GiftCardComponent,
     TransationsComponent,
@@ -82,12 +86,17 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     Angular2CsvModule,
     MatDatepickerModule,
     MatNativeDateModule
-
-    // LocalStorage,
   ],
-  providers: [MatDatepickerModule],
+  providers: [
+    MatDatepickerModule,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationServiceService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [DialogOverviewExampleDialog],
-  exports: [DialogOverviewExampleDialog]
+  entryComponents: [DialogOverviewExampleDialog, createGiftCard],
+  exports: [DialogOverviewExampleDialog, createGiftCard]
 })
 export class AppModule {}

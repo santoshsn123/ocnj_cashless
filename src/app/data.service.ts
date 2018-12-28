@@ -3,15 +3,20 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 
 import { Store } from "@ngrx/store";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
 })
 export class DataService {
   dataString: string;
-  // baseUrl: string = "http://localhost:3000/api";
-  baseUrl: string = "http://54.245.154.250:3000/api";
-  constructor(private http: HttpClient, private store: Store<any>) {}
+  baseUrl: string = "http://localhost:3000/api";
+  // baseUrl: string = "http://54.245.154.250:3000/api";
+  constructor(
+    private http: HttpClient,
+    private store: Store<any>,
+    private router: Router
+  ) {}
   // getUsers() {
   //   return this.http.get('https://jsonplaceholder.typicode.com/users')
   // }
@@ -34,4 +39,10 @@ export class DataService {
   setLoginDetails(obj) {
     this.store.dispatch({ type: obj.action, payload: obj.user });
   }
+  checkAuthentication = error => {
+    if (error.error.message == "Authentication Failed.Invalid Token.") {
+      localStorage.clear();
+      this.router.navigate(["login"]);
+    }
+  };
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { UsersService } from "../services/users/users.service";
 import { DataService } from "../data.service";
-import { LocalStorage } from "@ngx-pwa/local-storage";
 
 @Component({
   selector: "app-change-password",
@@ -9,11 +8,7 @@ import { LocalStorage } from "@ngx-pwa/local-storage";
   styleUrls: ["./change-password.component.scss"]
 })
 export class ChangePasswordComponent implements OnInit {
-  constructor(
-    private user: UsersService,
-    private data: DataService,
-    private localSt: LocalStorage
-  ) {}
+  constructor(private user: UsersService, private data: DataService) {}
 
   oldpassword;
   newpassword;
@@ -23,9 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   successMessage: string = "";
   status;
   ngOnInit() {
-    this.localSt.getItem("user").subscribe(user => {
-      this.userDetails = user;
-    });
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
   }
 
   changePassword = () => {

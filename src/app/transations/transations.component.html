@@ -72,7 +72,7 @@
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
               <angular2csv
-                class="fa fa-cloud-download"
+                class="fa fa-cloud-download removeButton"
                 [data]="
                   transactions
                     | filter
@@ -84,7 +84,8 @@
                 "
                 filename="transactions"
                 [options]="options"
-              ></angular2csv>
+              >
+              </angular2csv>
             </li>
           </ul>
         </div>

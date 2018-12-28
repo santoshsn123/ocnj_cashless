@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DataService } from "../../data.service";
 @Injectable({
   providedIn: "root"
 })
 export class UsersService {
   baseUrl: string;
+  token: string;
+  userData;
   constructor(private http: HttpClient, private global: DataService) {
     this.baseUrl = this.global.baseUrl;
   }
 
-  userData;
   submitLogin(Object) {
     return this.http.post(this.baseUrl + "/v1/admin/login", Object);
   }

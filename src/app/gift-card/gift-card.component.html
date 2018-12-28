@@ -17,19 +17,18 @@
       <div class="panel panel-default articles">
         <div class="panel-heading">
           Gift Card Management
-          <!--
-            <ul class="pull-right panel-settings panel-button-tab-right">
-              <li class="dropdown">
-                <a
-                  class="pull-right dropdown-toggle"
-                  data-toggle="dropdown"
-                  (click)="openDialog()"
-                >
-                  <em class="fas fa-plus"></em>
-                </a>
-              </li>
-            </ul>
-          -->
+
+          <ul class="pull-right panel-settings panel-button-tab-right">
+            <li class="dropdown">
+              <a
+                class="pull-right dropdown-toggle"
+                data-toggle="dropdown"
+                (click)="openDialog()"
+              >
+                <em class="fas fa-plus"></em>
+              </a>
+            </li>
+          </ul>
         </div>
         <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
           <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
@@ -47,7 +46,7 @@
               <td>Card Code</td>
               <td>Expiry Date</td>
               <td>Reedeem Status</td>
-              <!-- <td>Used By</td> -->
+              <td>Ammount</td>
               <td>Action</td>
             </tr>
             <tr
@@ -62,11 +61,14 @@
               <td>{{ card.uniqueCode }}</td>
               <td>{{ card.giftExpiryDate }}</td>
               <td>{{ card.redeemedStatus == 0 ? "unused" : "used" }}</td>
-              <!-- <td>{{ card.usedBy }}</td> -->
+              <td>{{ card.giftCardValue }}</td>
               <td>
-                <a href="javascript:void(0);" (click)="deleteCard(card)"
-                  >Delete</a
-                >
+                <a
+                  href="javascript:void(0);"
+                  title="Delete User"
+                  (click)="deleteCard(card)"
+                  ><em class="fa  fa-trash"></em
+                ></a>
               </td>
             </tr>
             <!--
