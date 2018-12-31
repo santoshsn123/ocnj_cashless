@@ -22,7 +22,6 @@ export class GiftCardComponent implements OnInit {
 
   getAllCards = () => {
     this.gift.getAllCards().subscribe(data => {
-      console.log(data);
       this.giftCards = data;
     });
   };

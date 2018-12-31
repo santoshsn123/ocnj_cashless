@@ -7,7 +7,7 @@
       <li class="active">Gift Card</li>
     </ol>
   </div>
-  <!-- /.row -->
+
   <div class="row">
     <div class="col-lg-12"><h1 class="page-header">Gift Card</h1></div>
   </div>
@@ -47,6 +47,8 @@
               <td>Expiry Date</td>
               <td>Reedeem Status</td>
               <td>Ammount</td>
+              <td>Created By</td>
+              <td>Used By</td>
               <td>Action</td>
             </tr>
             <tr
@@ -58,10 +60,17 @@
               "
             >
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ card.uniqueCode }}</td>
-              <td>{{ card.giftExpiryDate }}</td>
-              <td>{{ card.redeemedStatus == 0 ? "unused" : "used" }}</td>
-              <td>{{ card.giftCardValue }}</td>
+              <td>{{ card.unique_code }}</td>
+              <td>{{ card.gift_expiry_date }}</td>
+              <td>{{ card.redeemed_status == 0 ? "unused" : "used" }}</td>
+              <td>{{ card.gift_card_value }}</td>
+              <td>{{ card.p_firstname + " " + card.p_lastname }}</td>
+              <td>
+                <span *ngIf="card.used_firstname">{{
+                  card.used_firstname + " " + card.used_lastname
+                }}</span>
+                <span *ngIf="!card.used_firstname">None</span>
+              </td>
               <td>
                 <a
                   href="javascript:void(0);"
@@ -71,29 +80,6 @@
                 ></a>
               </td>
             </tr>
-            <!--
-              <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
-                <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.userName }}</td>
-                <td>
-                  <a href="javascript:void(0);" (click)="ActiveInactive(user)"
-                    ><span *ngIf="user.activeStatus == 1">Active</span>
-                    <span *ngIf="user.activeStatus != 1">InActive</span></a
-                  >
-                </td>
-                <td>{{ user.phone }}</td>
-                <td>
-                  <a href="javascript:void(0);" (click)="editUser(user)">Edit</a>
-                  /
-                  <a href="javascript:void(0);" (click)="deleteUser(user)"
-                    >Delete</a
-                  >
-                </td>
-              </tr>
-            -->
           </table>
 
           <pagination-controls
@@ -102,14 +88,7 @@
         </div>
       </div>
 
-      <div class="col-sm-12">
-        <!--
-          <p class="back-link">
-             <a href="https://www.medialoot.com"></a>
-          </p>
-        -->
-      </div>
+      <div class="col-sm-12"></div>
     </div>
-    <!-- /.row -->
   </div>
 </div>

@@ -46,7 +46,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 
 import { FilterPipe } from "./filter.pipe";
 
-import { Angular2CsvModule } from "angular2-csv";
+import { Angular2CsvModule, Angular2CsvComponent } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 
@@ -89,6 +89,7 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
   ],
   providers: [
     MatDatepickerModule,
+    Angular2CsvComponent,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationServiceService,

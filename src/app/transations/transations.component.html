@@ -71,7 +71,11 @@
           Transactions
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
-              <angular2csv
+              <a href="javascript:void(0);" title="Download" (click)="clickedHere()"
+                >
+                <em class="fa fa-cloud-download">&nbsp;</em>
+              </a>
+              <!-- <angular2csv
                 class="fa fa-cloud-download removeButton"
                 [data]="
                   transactions
@@ -85,7 +89,7 @@
                 filename="transactions"
                 [options]="options"
               >
-              </angular2csv>
+              </angular2csv> -->
             </li>
           </ul>
         </div>

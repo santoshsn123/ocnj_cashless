@@ -8,6 +8,7 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Angular2CsvModule } from "angular2-csv";
+import { Angular2CsvComponent } from "angular2-csv";
 import { DataService } from "../data.service";
 
 @Component({
@@ -19,7 +20,8 @@ export class TransationsComponent implements OnInit {
   constructor(
     private trans: TransactionsService,
     private user: UsersService,
-    private dataservice: DataService
+    private dataservice: DataService,
+    private download: Angular2CsvComponent
   ) {}
 
   transactions;
@@ -73,13 +75,20 @@ export class TransationsComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  clickedHere = () => {};
+  clickedHere = () => {
+    this.options;
+    this.download.filename = "Transactions";
+    this.download.data = this.transactions;
+    this.download.options = this.options;
+    this.download.generateCsv();
+  };
 
   options = {
     fieldSeparator: ",",
     quoteStrings: '"',
     decimalseparator: ".",
     showLabels: false,
+    filename: "Transactions",
     headers: [
       "Amount",
       "CreatedAt",
@@ -90,7 +99,7 @@ export class TransationsComponent implements OnInit {
       "UpdatedAt"
     ],
     showTitle: true,
-    title: "asfasf",
+    title: "Transactions",
     useBom: false,
     removeNewLines: true,
     keys: [
