@@ -155,8 +155,8 @@ input.form-control {
   color: #fff;
   height: 40px;
   width: 40px;
-  padding-top: 11px !important;
-  padding-left: 9px !important;
+  /* padding-top: 11px !important;
+  padding-left: 9px !important; */
 }
 
 .dropdown:hover {
