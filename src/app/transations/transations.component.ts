@@ -32,7 +32,9 @@ export class TransationsComponent implements OnInit {
   merchantName;
   endDate;
   startDate;
+  loading: boolean;
   ngOnInit() {
+    this.loading = true;
     this.getAllTransactions();
     this.getAllMerchants();
   }
@@ -42,8 +44,10 @@ export class TransationsComponent implements OnInit {
     this.trans.getAllTransactions().subscribe(
       data => {
         this.transactions = data;
+        this.loading = false;
       },
       error => {
+        this.loading = false;
         this.dataservice.checkAuthentication(error);
       }
     );

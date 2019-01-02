@@ -47,7 +47,8 @@ const routes: Routes = [
   {
     path: "changePassword",
     component: ChangePasswordComponent
-  }
+  },
+  { path: '**', component: DashboardComponent }
 ];
 
 @NgModule({
