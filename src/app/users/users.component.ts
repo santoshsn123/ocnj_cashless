@@ -32,7 +32,9 @@ export class UsersComponent implements OnInit {
   showsuccessMessage: string = "";
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  userType: string = "";
 
+  loading: boolean = true;
   constructor(
     private data: DataService,
     private user: UsersService,
@@ -72,6 +74,7 @@ export class UsersComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.loading = true;
     this.loadUsers();
   }
   closeMessage() {
@@ -97,6 +100,7 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
+      this.loading = false;
     });
   }
   deleteUser(user) {
@@ -146,6 +150,7 @@ export class DialogOverviewExampleDialog {
   showBankingError: string;
   errorMessage: string;
   FetchedUser;
+
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,

@@ -14,15 +14,18 @@ export class GiftCardComponent implements OnInit {
   giftCards;
   itemsPerPage: number = 10;
   currentPage: number = 1;
+  loading: boolean = true;
   constructor(private gift: GiftCardService, public dialog: MatDialog) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getAllCards();
   }
 
   getAllCards = () => {
     this.gift.getAllCards().subscribe(data => {
       this.giftCards = data;
+      this.loading = false;
     });
   };
 

@@ -52,3 +52,27 @@ export class FilterPipe implements PipeTransform {
     }
   }
 }
+
+@Pipe({
+  name: "userFilter"
+})
+export class FilterUsers implements PipeTransform {
+  transform(items: any[], searchText): any[] {
+    if (!items) return [];
+    console.log(searchText);
+    if (!searchText.type) {
+      return items;
+    }
+    items = items.filter(it => {
+      // console.log(it);
+      return searchText.type == "merchant"
+        ? it.is_merchant == 1
+          ? it
+          : null
+        : it.is_merchant == 0
+        ? it
+        : null;
+    });
+    return items;
+  }
+}

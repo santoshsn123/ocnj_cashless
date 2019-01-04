@@ -44,7 +44,7 @@ import { TransationsComponent } from "./transations/transations.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 
-import { FilterPipe } from "./filter.pipe";
+import { FilterPipe, FilterUsers } from "./filter.pipe";
 
 import { Angular2CsvModule, Angular2CsvComponent } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
@@ -67,6 +67,7 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
     GiftCardComponent,
     TransationsComponent,
     FilterPipe,
+    FilterUsers,
     PurchasedBucksComponent,
     ChangePasswordComponent
   ],

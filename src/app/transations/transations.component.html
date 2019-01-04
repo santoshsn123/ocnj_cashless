@@ -126,6 +126,7 @@
           <ng-template #noTransactions> No Transactions Available </ng-template>
 
           <pagination-controls
+            *ngIf="!loading"
             (pageChange)="currentPage = $event"
           ></pagination-controls>
         </div>

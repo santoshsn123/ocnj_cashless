@@ -40,7 +40,7 @@
           ></a>
         </div>
         <div class="panel-body articles-container">
-          <table class="table">
+          <table class="table" *ngIf="purchasedBuck && !loading; else noBucks">
             <tr>
               <td>#</td>
               <td>Ammount</td>
@@ -73,7 +73,14 @@
             </tr>
           </table>
 
+          <div class="loading_position">
+            <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
+          </div>
+          <ng-template #noBucks *ngIf="!loading"
+            >No Cards Available</ng-template
+          >
           <pagination-controls
+            *ngIf="!loading"
             (pageChange)="currentPage = $event"
           ></pagination-controls>
         </div>

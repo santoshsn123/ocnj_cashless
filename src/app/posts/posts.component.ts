@@ -27,10 +27,12 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.userValue = this.user.getUserData();
+    console.log(this.userValue);
     if (!this.userValue) {
       this.router.navigate(["users"]);
+    } else {
+      this.getAllTransactionForUser(this.userValue.uuid);
     }
-    this.getAllTransactionForUser(this.userValue.uuid);
   }
 
   getAllTransactionForUser = uuid => {

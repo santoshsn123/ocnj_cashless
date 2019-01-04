@@ -13,13 +13,16 @@ export class PurchasedBucksComponent implements OnInit {
   showsuccessMessage;
   itemsPerPage: number = 10;
   currentPage: number = 1;
+  loading: boolean = true;
   ngOnInit() {
+    this.loading = true;
     this.getPrchasedBucks();
   }
 
   getPrchasedBucks = () => {
     this.trans.getPurchasedBucks().subscribe(data => {
       this.purchasedBuck = data;
+      this.loading = false;
     });
   };
 }
