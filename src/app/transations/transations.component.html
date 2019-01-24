@@ -7,10 +7,8 @@
       <li class="active">Transactions</li>
     </ol>
   </div>
-  <!-- /.row -->
   <div class="row">
     <div class="col-md-offset-3 col-md-6 ">
-      <!-- <h1 class="page-header">Transactions</h1> -->
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <input
@@ -71,35 +69,22 @@
           Transactions
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
-              <angular2csv
-                class="fa fa-cloud-download removeButton"
-                [data]="
-                  transactions
-                    | filter
-                      : {
-                          searchString: this.merchantName,
-                          startDate: this.startDate,
-                          endDate: this.endDate
-                        }
-                "
-                filename="transactions"
-                [options]="options"
+              <a
+                href="javascript:void(0);"
+                class="pull-right dropdown-toggle"
+                title="Download"
+                (click)="downloadTransactions()"
               >
-              </angular2csv>
+                <em class="fa fa-cloud-download">&nbsp;</em>
+              </a>
             </li>
           </ul>
         </div>
-        <!-- <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
-          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
-          }}<a
-            href="javascript:void(0);"
-            (click)="closeMessage()"
-            class="pull-right"
-            ><em class="fa fa-lg fa-close"></em
-          ></a>
-        </div> -->
         <div class="panel-body articles-container">
-          <table class="table">
+          <table
+            class="table"
+            *ngIf="transactions && !loading; else noTransactions"
+          >
             <thead>
               <tr>
                 <td>#</td>
@@ -109,20 +94,19 @@
                 <td>Date Time</td>
                 <td>From</td>
                 <td>To</td>
-                <!-- <td>Action</td> -->
               </tr>
             </thead>
             <tr
               *ngFor="
                 let trans of (transactions
-                  | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage }
                   | filter
                     : {
                         searchString: this.merchantName,
                         startDate: this.startDate,
                         endDate: this.endDate
-                      });
+                      }
+                  | paginate
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
                 let i = index
               "
             >
@@ -131,13 +115,18 @@
               <td>{{ trans.amount }}</td>
               <td>{{ trans.description }}</td>
               <td>{{ trans.createdAt | date: "dd-MM-yyyy" }}</td>
-              <td>{{ trans.from_firstname }}</td>
+              <td>{{ trans.from_email }}</td>
               <td>{{ trans.to_firstname }}</td>
-              <!-- <td>Action</td> -->
             </tr>
           </table>
 
+          <div class="loading_position">
+            <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
+          </div>
+          <ng-template #noTransactions> No Transactions Available </ng-template>
+
           <pagination-controls
+            *ngIf="!loading"
             (pageChange)="currentPage = $event"
           ></pagination-controls>
         </div>

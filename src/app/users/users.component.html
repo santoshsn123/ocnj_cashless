@@ -8,9 +8,50 @@
     </ol>
   </div>
   <!-- /.row -->
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-12"><h1 class="page-header">Users</h1></div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6 ">
+      <form class="example-form">
+        <!-- <mat-form-field class="example-full-width">
+          <input
+            type="text"
+            placeholder="Select Merchant"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+            [(ngModel)]="merchantName"
+            (input)="clickedFunction()"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of (filteredOptions | async)"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+        <label for="userType"> Select User Type</label>
+        <select
+          name="userType"
+          id="userType"
+          [(ngModel)]="userType"
+          class="form-control"
+        >
+          <option value=""> All</option>
+          <option value="user"> User</option>
+          <option value="merchant"> Merchant</option>
+        </select>
+        <br />
+        <!-- result : - {{ userType }} -->
+      </form>
+    </div>
   </div>
+
   <!-- /.row -->
 
   <!--
@@ -49,18 +90,29 @@
             ><em class="fa fa-lg fa-close"></em
           ></a>
         </div>
+        <div class="alert bg-warning" *ngIf="showerrorMessage" role="alert">
+          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showerrorMessage
+          }}<a
+            href="javascript:void(0);"
+            (click)="closeMessage()"
+            class="pull-right"
+            ><em class="fa fa-lg fa-close"></em
+          ></a>
+        </div>
         <div class="panel-body articles-container">
           <!-- Here ? -->
 
-          <table class="table">
+          <table class="table" *ngIf="users && !loading; else noUsers">
             <tr>
               <td>#</td>
               <td>Name</td>
               <td>Email</td>
-              <td>Username</td>
+
               <td>Active Status</td>
               <td>Phone</td>
               <td>User Type</td>
+              <td>Merchant Id</td>
+              <td>Amount</td>
               <td>Action</td>
             </tr>
             <!-- {{users}} -->
@@ -68,22 +120,25 @@
               *ngFor="
                 let user of (users
                   | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage }
+                  | userFilter: { type: this.userType });
                 let i = index
               "
             >
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ user.firstName + " " + user.lastName }}</td>
+              <td>{{ user.first_name + " " + user.last_name }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.userName }}</td>
+
               <td>
                 <a href="javascript:void(0);" (click)="ActiveInactive(user)"
-                  ><span *ngIf="user.activeStatus == 1">Active</span>
-                  <span *ngIf="user.activeStatus != 1">InActive</span></a
+                  ><span *ngIf="user.active_status == 1">Active</span>
+                  <span *ngIf="user.active_status != 1">InActive</span></a
                 >
               </td>
               <td>{{ user.phone }}</td>
-              <td>{{ user.isMerchant ? "Merchant" : "User" }}</td>
+              <td>{{ user.is_merchant ? "Merchant" : "User" }}</td>
+              <td>{{ user.merchant_unique_id }}</td>
+              <td>{{ user.bucks_amount }}</td>
               <td>
                 <a
                   href="javascript:void(0);"
@@ -108,17 +163,23 @@
             </tr>
           </table>
 
+          <div class="loading_position">
+            <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
+          </div>
+          <ng-template #noUsers> No Transactions Available </ng-template>
+
           <pagination-controls
+            *ngIf="!loading"
             (pageChange)="currentPage = $event"
           ></pagination-controls>
         </div>
       </div>
 
-      <div class="col-sm-12">
+      <!-- <div class="col-sm-12">
         <p class="back-link">
           Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a>
         </p>
-      </div>
+      </div> -->
     </div>
     <!-- /.row -->
   </div>

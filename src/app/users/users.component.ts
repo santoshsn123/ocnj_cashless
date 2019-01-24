@@ -32,7 +32,9 @@ export class UsersComponent implements OnInit {
   showsuccessMessage: string = "";
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  userType: string = "";
 
+  loading: boolean = true;
   constructor(
     private data: DataService,
     private user: UsersService,
@@ -61,7 +63,7 @@ export class UsersComponent implements OnInit {
 
   viewTransactions = user => {
     this.user.setUserData(user);
-    this.router.navigate(["posts"]);
+    this.router.navigate(["posts/" + user.uuid]);
   };
 
   showSuccessMessage = message => {
@@ -70,12 +72,20 @@ export class UsersComponent implements OnInit {
       this.closeMessage();
     }, 1800);
   };
+  showErrorMessage = message => {
+    this.showerrorMessage = message;
+    setTimeout(() => {
+      this.closeMessage();
+    }, 1800);
+  };
 
   ngOnInit() {
+    this.loading = true;
     this.loadUsers();
   }
   closeMessage() {
     this.showsuccessMessage = "";
+    this.showerrorMessage = "";
   }
   ActiveInactive = user => {
     if (user.activeStatus == 1) {
@@ -97,21 +107,27 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
+      this.loading = false;
     });
   }
   deleteUser(user) {
-    if (confirm("Do you really want to delete this user ?")) {
-      this.user.deleteUser(user.uuid).subscribe(
-        data => {
-          this.loadUsers(); //loading Users after deleting users.
-          this.showerrorMessage = "";
-          this.showSuccessMessage("User Deleted successfully");
-        },
-        error => {
-          this.showerrorMessage = error.error.message;
-        }
-      );
+    // console.log(user.bucks_amount);
+    if (user.bucks_amount) {
+      this.showErrorMessage("You Can not Delete user having bucs in account");
     } else {
+      if (confirm("Do you really want to delete this user ?")) {
+        this.user.deleteUser(user.uuid).subscribe(
+          data => {
+            this.loadUsers(); //loading Users after deleting users.
+            this.showerrorMessage = "";
+            this.showSuccessMessage("User Deleted successfully");
+          },
+          error => {
+            this.showerrorMessage = error.error.message;
+          }
+        );
+      } else {
+      }
     }
   }
 
@@ -146,6 +162,7 @@ export class DialogOverviewExampleDialog {
   showBankingError: string;
   errorMessage: string;
   FetchedUser;
+
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,

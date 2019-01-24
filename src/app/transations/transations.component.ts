@@ -8,7 +8,9 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Angular2CsvModule } from "angular2-csv";
+import { Angular2CsvComponent } from "angular2-csv";
 import { DataService } from "../data.service";
+import { FilterPipe } from "../filter.pipe";
 
 @Component({
   selector: "app-transations",
@@ -19,18 +21,22 @@ export class TransationsComponent implements OnInit {
   constructor(
     private trans: TransactionsService,
     private user: UsersService,
-    private dataservice: DataService
+    private dataservice: DataService,
+    private download: Angular2CsvComponent,
+    private filterpipe: FilterPipe
   ) {}
 
   transactions;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   getMerchants;
   searchParams;
   merchantName;
   endDate;
   startDate;
+  loading: boolean;
   ngOnInit() {
+    this.loading = true;
     this.getAllTransactions();
     this.getAllMerchants();
   }
@@ -40,8 +46,10 @@ export class TransationsComponent implements OnInit {
     this.trans.getAllTransactions().subscribe(
       data => {
         this.transactions = data;
+        this.loading = false;
       },
       error => {
+        this.loading = false;
         this.dataservice.checkAuthentication(error);
       }
     );
@@ -73,13 +81,40 @@ export class TransationsComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  clickedHere = () => {};
+  filterTransactions = () => {
+    // console.log("Working : - ");
+    // this.transactions = this.filterpipe.transform(this.transactions, {
+    //   searchString: this.merchantName,
+    //   startDate: this.startDate,
+    //   endDate: this.endDate
+    // });
+  };
+  updateCalcs = ev => {
+    console.log(ev);
+  };
+
+  downloadTransactions = () => {
+    var data = this.filterpipe.transform(this.transactions, {
+      searchString: this.merchantName,
+      startDate: this.startDate,
+      endDate: this.endDate
+    });
+
+    this.options;
+    this.download.filename = "Transactions";
+    this.download.data = data; //this.transactions;
+    this.download.options = this.options;
+    this.download.generateCsv();
+
+    // console.log(data);
+  };
 
   options = {
     fieldSeparator: ",",
     quoteStrings: '"',
     decimalseparator: ".",
     showLabels: false,
+    filename: "Transactions",
     headers: [
       "Amount",
       "CreatedAt",
@@ -90,7 +125,7 @@ export class TransationsComponent implements OnInit {
       "UpdatedAt"
     ],
     showTitle: true,
-    title: "asfasf",
+    title: "Transactions",
     useBom: false,
     removeNewLines: true,
     keys: [

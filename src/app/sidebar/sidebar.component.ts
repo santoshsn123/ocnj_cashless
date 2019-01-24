@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { DataService } from "../data.service";
 import { ACTION_LOGOUT, ACTION_LOGIN } from "../store/actions/appActions";
+import { UsersService } from "../services/users/users.service";
 
 @Component({
   selector: "app-sidebar",
@@ -9,14 +10,36 @@ import { ACTION_LOGOUT, ACTION_LOGIN } from "../store/actions/appActions";
   styleUrls: ["./sidebar.component.scss"]
 })
 export class SidebarComponent implements OnInit {
-  constructor(private router: Router, private data: DataService) {
+  username: string = "";
+  user;
+  userdetails;
+  constructor(
+    private router: Router,
+    private data: DataService,
+    private userData: UsersService
+  ) {
     let user = localStorage.getItem("user");
+    this.user = JSON.parse(user);
     if (!user && router.url != "/login") {
       this.router.navigate(["login"]);
     }
 
     if (user && router.url == "/login") {
       this.router.navigate([""]);
+    }
+
+    this.username = localStorage.getItem("username"); // Check if the Username saved in localstorage
+
+    //If Not available in localstorage get username from the api call.
+    if (!this.username) {
+      this.userData.getSingleUser(this.user.uuid).subscribe(data => {
+        this.userdetails = data;
+        this.username =
+          this.userdetails.user.firstName +
+          " " +
+          this.userdetails.user.lastName;
+        localStorage.setItem("username", this.username);
+      });
     }
   }
 

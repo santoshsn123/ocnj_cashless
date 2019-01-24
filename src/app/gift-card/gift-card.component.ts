@@ -3,7 +3,8 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { GiftCardService } from "../services/gift-card/gift-card.service";
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from "@angular/material";
 import { DialogData } from "../users/users.component";
-
+import { Angular2CsvComponent } from "angular2-csv";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-gift-card",
   templateUrl: "./gift-card.component.html",
@@ -14,16 +15,23 @@ export class GiftCardComponent implements OnInit {
   giftCards;
   itemsPerPage: number = 10;
   currentPage: number = 1;
-  constructor(private gift: GiftCardService, public dialog: MatDialog) {}
+  loading: boolean = true;
+  constructor(
+    private gift: GiftCardService,
+    public dialog: MatDialog,
+    private download: Angular2CsvComponent,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getAllCards();
   }
 
   getAllCards = () => {
     this.gift.getAllCards().subscribe(data => {
-      console.log(data);
       this.giftCards = data;
+      this.loading = false;
     });
   };
 
@@ -34,6 +42,9 @@ export class GiftCardComponent implements OnInit {
         this.showSuccessMessage("Card deleted successfully");
       });
     }
+  };
+  gotoUserDetails = id => {
+    this.router.navigate(["posts/" + id]);
   };
 
   showSuccessMessage = message => {
@@ -59,6 +70,46 @@ export class GiftCardComponent implements OnInit {
       }
     });
   }
+
+  downloadAllCards = () => {
+    this.options;
+    this.download.filename = "GiftCards";
+    this.download.data = this.giftCards;
+    this.download.options = this.options;
+    this.download.generateCsv();
+  };
+
+  options = {
+    fieldSeparator: ",",
+    quoteStrings: '"',
+    decimalseparator: ".",
+    showLabels: false,
+    filename: "GiftCards",
+    headers: [
+      "Gift Card Code",
+      "Created Time",
+      "Expiry Time",
+      "Created By First Name",
+      "Created By Last Name",
+      "Redeem Status",
+      "Used By First Name",
+      "Used By Last Name"
+    ],
+    showTitle: true,
+    title: "GiftCards",
+    useBom: false,
+    removeNewLines: true,
+    keys: [
+      "unique_code",
+      "createdAt",
+      "gift_expiry_date",
+      "p_firstname",
+      "p_lastname",
+      "redeemed_status",
+      "used_firstname",
+      "used_firstname"
+    ]
+  };
 }
 
 /*------------------Popup code--------------------*/
