@@ -95,7 +95,8 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationServiceService,
       multi: true
-    }
+    },
+    FilterPipe
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogOverviewExampleDialog, createGiftCard],

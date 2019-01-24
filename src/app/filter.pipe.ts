@@ -59,7 +59,6 @@ export class FilterPipe implements PipeTransform {
 export class FilterUsers implements PipeTransform {
   transform(items: any[], searchText): any[] {
     if (!items) return [];
-    console.log(searchText);
     if (!searchText.type) {
       return items;
     }

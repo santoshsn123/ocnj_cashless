@@ -10,6 +10,7 @@ import { map, startWith } from "rxjs/operators";
 import { Angular2CsvModule } from "angular2-csv";
 import { Angular2CsvComponent } from "angular2-csv";
 import { DataService } from "../data.service";
+import { FilterPipe } from "../filter.pipe";
 
 @Component({
   selector: "app-transations",
@@ -21,11 +22,12 @@ export class TransationsComponent implements OnInit {
     private trans: TransactionsService,
     private user: UsersService,
     private dataservice: DataService,
-    private download: Angular2CsvComponent
+    private download: Angular2CsvComponent,
+    private filterpipe: FilterPipe
   ) {}
 
   transactions;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   currentPage: number = 1;
   getMerchants;
   searchParams;
@@ -79,12 +81,32 @@ export class TransationsComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  clickedHere = () => {
+  filterTransactions = () => {
+    // console.log("Working : - ");
+    // this.transactions = this.filterpipe.transform(this.transactions, {
+    //   searchString: this.merchantName,
+    //   startDate: this.startDate,
+    //   endDate: this.endDate
+    // });
+  };
+  updateCalcs = ev => {
+    console.log(ev);
+  };
+
+  downloadTransactions = () => {
+    var data = this.filterpipe.transform(this.transactions, {
+      searchString: this.merchantName,
+      startDate: this.startDate,
+      endDate: this.endDate
+    });
+
     this.options;
     this.download.filename = "Transactions";
-    this.download.data = this.transactions;
+    this.download.data = data; //this.transactions;
     this.download.options = this.options;
     this.download.generateCsv();
+
+    // console.log(data);
   };
 
   options = {

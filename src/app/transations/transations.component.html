@@ -73,7 +73,7 @@
                 href="javascript:void(0);"
                 class="pull-right dropdown-toggle"
                 title="Download"
-                (click)="clickedHere()"
+                (click)="downloadTransactions()"
               >
                 <em class="fa fa-cloud-download">&nbsp;</em>
               </a>
@@ -99,14 +99,14 @@
             <tr
               *ngFor="
                 let trans of (transactions
-                  | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage }
                   | filter
                     : {
                         searchString: this.merchantName,
                         startDate: this.startDate,
                         endDate: this.endDate
-                      });
+                      }
+                  | paginate
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
                 let i = index
               "
             >
@@ -115,7 +115,7 @@
               <td>{{ trans.amount }}</td>
               <td>{{ trans.description }}</td>
               <td>{{ trans.createdAt | date: "dd-MM-yyyy" }}</td>
-              <td>{{ trans.from_firstname }}</td>
+              <td>{{ trans.from_email }}</td>
               <td>{{ trans.to_firstname }}</td>
             </tr>
           </table>

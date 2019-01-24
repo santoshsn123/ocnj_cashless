@@ -63,11 +63,17 @@ export class UsersComponent implements OnInit {
 
   viewTransactions = user => {
     this.user.setUserData(user);
-    this.router.navigate(["posts"]);
+    this.router.navigate(["posts/" + user.uuid]);
   };
 
   showSuccessMessage = message => {
     this.showsuccessMessage = message;
+    setTimeout(() => {
+      this.closeMessage();
+    }, 1800);
+  };
+  showErrorMessage = message => {
+    this.showerrorMessage = message;
     setTimeout(() => {
       this.closeMessage();
     }, 1800);
@@ -79,6 +85,7 @@ export class UsersComponent implements OnInit {
   }
   closeMessage() {
     this.showsuccessMessage = "";
+    this.showerrorMessage = "";
   }
   ActiveInactive = user => {
     if (user.activeStatus == 1) {
@@ -104,18 +111,23 @@ export class UsersComponent implements OnInit {
     });
   }
   deleteUser(user) {
-    if (confirm("Do you really want to delete this user ?")) {
-      this.user.deleteUser(user.uuid).subscribe(
-        data => {
-          this.loadUsers(); //loading Users after deleting users.
-          this.showerrorMessage = "";
-          this.showSuccessMessage("User Deleted successfully");
-        },
-        error => {
-          this.showerrorMessage = error.error.message;
-        }
-      );
+    // console.log(user.bucks_amount);
+    if (user.bucks_amount) {
+      this.showErrorMessage("You Can not Delete user having bucs in account");
     } else {
+      if (confirm("Do you really want to delete this user ?")) {
+        this.user.deleteUser(user.uuid).subscribe(
+          data => {
+            this.loadUsers(); //loading Users after deleting users.
+            this.showerrorMessage = "";
+            this.showSuccessMessage("User Deleted successfully");
+          },
+          error => {
+            this.showerrorMessage = error.error.message;
+          }
+        );
+      } else {
+      }
     }
   }
 

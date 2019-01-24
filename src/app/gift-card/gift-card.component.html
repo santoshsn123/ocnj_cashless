@@ -21,11 +21,24 @@
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
               <a
+                href="javascript:void(0);"
                 class="pull-right dropdown-toggle"
                 data-toggle="dropdown"
                 (click)="openDialog()"
               >
                 <em class="fas fa-plus"></em>
+              </a>
+            </li>
+          </ul>
+          <ul class="pull-right panel-settings panel-button-tab-right">
+            <li class="dropdown">
+              <a
+                href="javascript:void(0);"
+                class="pull-right dropdown-toggle"
+                title="Download"
+                (click)="downloadAllCards()"
+              >
+                <em class="fa fa-cloud-download">&nbsp;</em>
               </a>
             </li>
           </ul>
@@ -47,9 +60,9 @@
               <td>Expiry Date</td>
               <td>Reedeem Status</td>
               <td>Ammount</td>
-              <td>Created By</td>
-              <td>Used By</td>
-              <td>Action</td>
+              <td>Purchased By</td>
+              <td>Claimed By</td>
+              <!-- <td>Action</td> -->
             </tr>
             <tr
               *ngFor="
@@ -62,32 +75,40 @@
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
               <td>{{ card.unique_code }}</td>
               <td>{{ card.gift_expiry_date }}</td>
-              <td>{{ card.redeemed_status == 0 ? "unused" : "used" }}</td>
+              <td>{{ card.redeemed_status == 0 ? "Unclaimed" : "Claimed" }}</td>
               <td>{{ card.gift_card_value }}</td>
-              <td>{{ card.p_firstname + " " + card.p_lastname }}</td>
               <td>
-                <span *ngIf="card.used_firstname">{{
-                  card.used_firstname + " " + card.used_lastname
-                }}</span>
-                <span *ngIf="!card.used_firstname">None</span>
+                <a
+                  href="javascript:void(0);"
+                  (click)="gotoUserDetails(card.p_uuid)"
+                  >{{ card.p_firstname + " " + card.p_lastname }}</a
+                >
               </td>
               <td>
+                <span *ngIf="card.used_firstname"
+                  >{{
+                  <a href="gotoUserDetails(card.used_uuid)"
+                    >card.used_firstname + " " + card.used_lastname</a
+                  >
+                  }}</span
+                >
+                <span *ngIf="!card.used_firstname">None</span>
+              </td>
+              <!-- <td>
                 <a
                   href="javascript:void(0);"
                   title="Delete User"
                   (click)="deleteCard(card)"
                   ><em class="fa  fa-trash"></em
                 ></a>
-              </td>
+              </td> -->
             </tr>
           </table>
 
           <div class="loading_position">
             <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
           </div>
-          <ng-template #noCards *ngIf="!loading">
-            No Cards Available
-          </ng-template>
+          <ng-template #noCards> No Cards Available </ng-template>
 
           <pagination-controls
             *ngIf="!loading"

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DataService } from "../data.service";
 import { Observable } from "rxjs";
 import { UsersService } from "../services/users/users.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-posts",
@@ -19,19 +19,25 @@ export class PostsComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage_gift: number = 10;
   currentPage_gift: number = 1;
+  userId: number;
+  userDetails: Object;
   constructor(
     private data: DataService,
     private user: UsersService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => (this.userId = params.id));
+  }
 
   ngOnInit() {
-    this.userValue = this.user.getUserData();
-    console.log(this.userValue);
-    if (!this.userValue) {
+    // this.userValue = this.user.getUserData();
+    console.log(this.userId);
+    if (!this.userId) {
       this.router.navigate(["users"]);
     } else {
-      this.getAllTransactionForUser(this.userValue.uuid);
+      this.getAllTransactionForUser(this.userId);
+      this.getUserDetails(this.userId);
     }
   }
 
@@ -41,6 +47,13 @@ export class PostsComponent implements OnInit {
       this.gift_card_transaction = this.userdata.gift_card_transaction;
       this.purchased_transaction = this.userdata.purchased_transaction;
       this.bucks = this.userdata.bucks;
+    });
+  };
+
+  getUserDetails = uuid => {
+    this.user.getSingleUser(uuid).subscribe(data => {
+      this.userValue = data;
+      this.userDetails = this.userValue.user;
     });
   };
 }

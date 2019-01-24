@@ -90,6 +90,15 @@
             ><em class="fa fa-lg fa-close"></em
           ></a>
         </div>
+        <div class="alert bg-warning" *ngIf="showerrorMessage" role="alert">
+          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showerrorMessage
+          }}<a
+            href="javascript:void(0);"
+            (click)="closeMessage()"
+            class="pull-right"
+            ><em class="fa fa-lg fa-close"></em
+          ></a>
+        </div>
         <div class="panel-body articles-container">
           <!-- Here ? -->
 
@@ -157,9 +166,7 @@
           <div class="loading_position">
             <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
           </div>
-          <ng-template *ngIf="!loading" #noUsers>
-            No Transactions Available
-          </ng-template>
+          <ng-template #noUsers> No Transactions Available </ng-template>
 
           <pagination-controls
             *ngIf="!loading"
