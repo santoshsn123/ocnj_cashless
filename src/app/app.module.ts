@@ -51,6 +51,10 @@ import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.compo
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 import { AuthenticationServiceService } from "./services/Autherisation/authentication-service.service";
+import {
+  ConvenienceFeesComponent,
+  createConvenience
+} from "./convenience-fees/convenience-fees.component";
 
 @NgModule({
   declarations: [
@@ -69,7 +73,9 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
     FilterPipe,
     FilterUsers,
     PurchasedBucksComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ConvenienceFeesComponent,
+    createConvenience
   ],
   imports: [
     BrowserModule,
@@ -99,7 +105,11 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
     FilterPipe
   ],
   bootstrap: [AppComponent],
-  entryComponents: [DialogOverviewExampleDialog, createGiftCard],
-  exports: [DialogOverviewExampleDialog, createGiftCard]
+  entryComponents: [
+    DialogOverviewExampleDialog,
+    createGiftCard,
+    createConvenience
+  ],
+  exports: [DialogOverviewExampleDialog, createGiftCard, createConvenience]
 })
 export class AppModule {}

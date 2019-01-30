@@ -14,22 +14,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-default articles">
-        <div class="panel-heading">
-          Purchased Credits
-          <ul class="pull-right panel-settings panel-button-tab-right">
-            <li class="dropdown">
-              <!--
-                <a
-                  class="pull-right dropdown-toggle"
-                  data-toggle="dropdown"
-                  (click)="openDialog()"
-                >
-                  <em class="fa fa-cloud-download"></em>
-                </a>
-              -->
-            </li>
-          </ul>
-        </div>
+        <div class="panel-heading">Purchased Credits</div>
         <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
           <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
           }}<a
@@ -43,10 +28,10 @@
           <table class="table" *ngIf="purchasedBuck && !loading; else noBucks">
             <tr>
               <td>#</td>
-              <td>Ammount</td>
+              <td>Amount</td>
               <td>Purchased By</td>
               <td>Transaction Id</td>
-              <td>Date Time</td>
+              <td>Date</td>
               <!--
                 <td>From</td>
                 <td>To</td>

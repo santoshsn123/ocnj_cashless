@@ -5,29 +5,36 @@
     <form (ngSubmit)="onSubmit()">
       <table class="table">
         <tr>
-          <td>No. Of Cards</td>
+          <td>Min Amount</td>
           <td>
             <input
               class="form-control"
-              name="noOfCards"
-              [(ngModel)]="noOfCards"
+              name="amountMin"
+              [(ngModel)]="amountMin"
               type="number"
             />
           </td>
         </tr>
         <tr>
-          <td>Amount</td>
+          <td>Max Amount</td>
           <td>
             <input
               class="form-control"
-              name="amount"
-              [(ngModel)]="amount"
+              name="amountMax"
+              [(ngModel)]="amountMax"
               type="number"
             />
-            <br />
-            <span *ngIf="amountError" class="invalid-feedback">
-              {{ amountError }}</span
-            >
+          </td>
+        </tr>
+        <tr>
+          <td>Rate (in % )</td>
+          <td>
+            <input
+              class="form-control"
+              name="rate"
+              [(ngModel)]="rate"
+              type="number"
+            />
           </td>
         </tr>
       </table>
@@ -44,6 +51,6 @@
     cdkFocusInitial
     class="btn btn-primary"
   >
-    Save
+    {{ pageData.type == "edit" ? "Update" : "Add" }}
   </button>
 </mat-dialog-actions>

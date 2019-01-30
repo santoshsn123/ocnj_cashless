@@ -5,7 +5,9 @@
         <a href="#"> <em class="fa fa-home"></em> </a>
       </li>
       <li class="active">Transaction Details</li>
-      <li class=""><a routerLink="../../users">Back</a></li>
+      <li class="">
+        <a href="javascript:void(0);" (click)="goBack()">Back</a>
+      </li>
     </ol>
   </div>
   <!-- /.row -->
@@ -44,9 +46,9 @@
           <table class="table">
             <tr>
               <td>#</td>
-              <td>Ammount</td>
+              <td>Amount</td>
               <td>Transaction Id</td>
-              <td>Date Time</td>
+              <td>Date</td>
             </tr>
             <tr
               *ngFor="
@@ -96,9 +98,9 @@
           <table class="table">
             <tr>
               <td>#</td>
-              <td>Ammount</td>
+              <td>Amount</td>
               <td>Transaction Id</td>
-              <td>Date Time</td>
+              <td>Date</td>
             </tr>
             <tr
               *ngFor="
@@ -143,9 +145,9 @@
           <table class="table">
             <tr>
               <td>#</td>
-              <td>Ammount</td>
+              <td>Amount</td>
               <td>Transaction Id</td>
-              <td>Date Time</td>
+              <td>Date</td>
             </tr>
             <tr
               *ngFor="

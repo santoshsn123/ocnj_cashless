@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Add User</h2>
+<h2 mat-dialog-title>{{ data.type | titlecase }} User</h2>
 <div class="invalid-feedback">{{ errorMessage }}</div>
 <mat-dialog-content class="mat-typography">
   <div mat-dialog-content>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
       <table class="table">
         <tr>
           <td>First Name</td>
@@ -33,7 +33,8 @@
           <td>
             <input class="form-control" formControlName="email" />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              Please Enter Email
+              <div *ngIf="f.email.errors.required">Please Enter Email</div>
+              <div *ngIf="f.email.errors.email">Please Enter Valid Email</div>
             </div>
           </td>
         </tr>
@@ -42,7 +43,10 @@
           <td>
             <input class="form-control" formControlName="phone" />
             <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-              Please Enter Phone No.
+              <div *ngIf="f.phone.errors.required">Please Enter Phone No.</div>
+              <div *ngIf="f.phone.errors.minlength">
+                Enter Valid Phone Number.
+              </div>
             </div>
           </td>
         </tr>
@@ -59,10 +63,10 @@
           </td>
         </tr>
         <tr>
-          <td>is Merchant?</td>
+          <td>User Type</td>
           <td>
             <!-- (click)="changeFieldsChange()" -->
-            <input
+            <!-- <input
               type="radio"
               name="isMerchant"
               [(ngModel)]="isMerchant"
@@ -77,17 +81,28 @@
               formControlName="isMerchant"
               value="false"
             />
-            No
+            No -->
+            <select
+              name="userType"
+              [(ngModel)]="userType"
+              formControlName="userType"
+              class="form-control"
+            >
+              <!-- <option value="">--Please Select--</option> -->
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+              <option value="Merchant">Merchant</option>
+            </select>
             <div
-              *ngIf="submitted && f.isMerchant.errors"
+              *ngIf="submitted && f.userType.errors"
               class="invalid-feedback"
             >
-              Please User Type
+              Please Select User Type
             </div>
           </td>
         </tr>
         <!-- {{f.isMerchant.value}} -->
-        <tbody *ngIf="f.isMerchant.value == 'true'">
+        <tbody *ngIf="f.userType.value == 'Merchant'">
           <tr *ngIf="showBankingError">
             <td colspan="2">
               <div class="invalid-feedback">{{ showBankingError }}</div>
@@ -145,7 +160,13 @@
               *ngIf="submitted && f.password.errors"
               class="invalid-feedback"
             >
-              Please Enter Password
+              <!-- Please Enter Password -->
+              <div *ngIf="f.password.errors.minlength">
+                Password Length Should be at least 6.
+              </div>
+              <div *ngIf="f.password.errors.required">
+                Please Enter Password
+              </div>
             </div>
           </td>
         </tr>
@@ -158,7 +179,7 @@
               formControlName="cpassword"
             />
             <div
-              *ngIf="submitted && f.password.errors"
+              *ngIf="submitted && f.cpassword.errors"
               class="invalid-feedback"
             >
               Please Enter Confirm Password
@@ -173,6 +194,7 @@
         </tr>
       </table>
     </form>
+    <div *ngIf="loading"><i class="fa fa-refresh fa-spin icon_size"></i></div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -4,19 +4,19 @@
       <li>
         <a href="#"> <em class="fa fa-home"></em> </a>
       </li>
-      <li class="active">Gift Card</li>
+      <li class="active">Convenience Fees</li>
     </ol>
   </div>
 
   <div class="row">
-    <div class="col-lg-12"><h1 class="page-header">Gift Card</h1></div>
+    <div class="col-lg-12"><h1 class="page-header">Convenience Fees</h1></div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-default articles">
         <div class="panel-heading">
-          Gift Card Management
+          Convenience Fees Management
 
           <ul class="pull-right panel-settings panel-button-tab-right">
             <li class="dropdown">
@@ -27,18 +27,6 @@
                 (click)="openDialog()"
               >
                 <em class="fas fa-plus"></em>
-              </a>
-            </li>
-          </ul>
-          <ul class="pull-right panel-settings panel-button-tab-right">
-            <li class="dropdown">
-              <a
-                href="javascript:void(0);"
-                class="pull-right dropdown-toggle"
-                title="Download"
-                (click)="downloadAllCards()"
-              >
-                <em class="fa fa-cloud-download">&nbsp;</em>
               </a>
             </li>
           </ul>
@@ -53,47 +41,42 @@
           ></a>
         </div>
         <div class="panel-body articles-container">
-          <table class="table" *ngIf="giftCards && !loading; else noCards">
+          <table class="table" *ngIf="conveniences && !loading; else noCards">
             <tr>
               <td>#</td>
-              <td>Card Code</td>
-              <td>Expiry Date</td>
-              <td>Reedeem Status</td>
-              <td>Amount</td>
-              <td>Purchased By</td>
-              <td>Claimed By</td>
-              <!-- <td>Action</td> -->
+              <td>MinAmount</td>
+              <td>MaxAmount</td>
+              <td>Fee Rate (%)</td>
+              <td>Action</td>
             </tr>
             <tr
               *ngFor="
-                let card of (giftCards
+                let conv of (conveniences
                   | paginate
                     : { itemsPerPage: itemsPerPage, currentPage: currentPage });
                 let i = index
               "
             >
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ card.unique_code }}</td>
-              <td>{{ card.gift_expiry_date }}</td>
-              <td>{{ card.redeemed_status == 0 ? "Unclaimed" : "Claimed" }}</td>
-              <td>{{ card.gift_card_value }}</td>
+              <td>{{ conv.amountMin }}</td>
+              <td>{{ conv.amountMax }}</td>
+              <td>{{ conv.rate }}</td>
               <td>
                 <a
                   href="javascript:void(0);"
-                  (click)="gotoUserDetails(card.p_uuid)"
-                  >{{ card.p_firstname + " " + card.p_lastname }}</a
-                >
+                  title="Edit User"
+                  (click)="editConv(conv)"
+                  ><em class="fa fa-pencil-square"></em
+                ></a>
+                /
+                <a
+                  href="javascript:void(0);"
+                  title="Delete User"
+                  (click)="deleteConv(conv)"
+                  ><em class="fa  fa-trash"></em
+                ></a>
               </td>
-              <td>
-                <span *ngIf="card.used_firstname">
-                  <a
-                    href="javascript:void(0);"
-                    (click)="gotoUserDetails(card.used_uuid)"
-                    >{{ card.used_firstname + " " + card.used_lastname }}</a
-                  >
-                </span>
-                <span *ngIf="!card.used_firstname">None</span>
-              </td>
+
               <!-- <td>
                 <a
                   href="javascript:void(0);"
@@ -108,7 +91,7 @@
           <div class="loading_position">
             <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
           </div>
-          <ng-template #noCards> No Cards Available </ng-template>
+          <ng-template #noCards> No convenience Fees Added Yet </ng-template>
 
           <pagination-controls
             *ngIf="!loading"

@@ -128,6 +128,7 @@ export class createGiftCard {
   FetchedUser;
   amount;
   noOfCards;
+  amountError;
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<createGiftCard>,
@@ -136,18 +137,24 @@ export class createGiftCard {
   ) {}
 
   onSubmit = () => {
-    let object = {
-      noOfCards: this.noOfCards,
-      amount: this.amount,
-      uuid: JSON.parse(localStorage.getItem("user")).uuid
-    };
-    this.gift.createGiftCards(object).subscribe(
-      data => {
-        this.dialogRef.close("add");
-      },
-      error => {
-        this.errorMessage = error.error.message;
-      }
-    );
+    if (this.amount < 25) {
+      // console.log("amountError : - ", this.amount);
+      this.amountError = "Please Enter amount more than 25";
+    } else {
+      this.amountError = "";
+      let object = {
+        noOfCards: this.noOfCards,
+        amount: this.amount,
+        uuid: JSON.parse(localStorage.getItem("user")).uuid
+      };
+      this.gift.createGiftCards(object).subscribe(
+        data => {
+          this.dialogRef.close("add");
+        },
+        error => {
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
   };
 }

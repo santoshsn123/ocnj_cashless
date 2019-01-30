@@ -10,6 +10,7 @@ import { GiftCardComponent } from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
+import { ConvenienceFeesComponent } from "./convenience-fees/convenience-fees.component";
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: "changePassword",
     component: ChangePasswordComponent
+  },
+  {
+    path: "convenienceFees",
+    component: ConvenienceFeesComponent
   },
   { path: "**", component: DashboardComponent }
 ];

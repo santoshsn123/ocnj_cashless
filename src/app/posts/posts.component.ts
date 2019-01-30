@@ -3,6 +3,7 @@ import { DataService } from "../data.service";
 import { Observable } from "rxjs";
 import { UsersService } from "../services/users/users.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-posts",
@@ -21,18 +22,20 @@ export class PostsComponent implements OnInit {
   currentPage_gift: number = 1;
   userId: number;
   userDetails: Object;
+
   constructor(
     private data: DataService,
     private user: UsersService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) {
     this.route.params.subscribe(params => (this.userId = params.id));
   }
 
   ngOnInit() {
     // this.userValue = this.user.getUserData();
-    console.log(this.userId);
+    // console.log(this.userId);
     if (!this.userId) {
       this.router.navigate(["users"]);
     } else {
@@ -55,5 +58,9 @@ export class PostsComponent implements OnInit {
       this.userValue = data;
       this.userDetails = this.userValue.user;
     });
+  };
+  goBack = () => {
+    this.location.back();
+    // this.router.navigate
   };
 }

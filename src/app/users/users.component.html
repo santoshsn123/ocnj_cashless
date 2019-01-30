@@ -111,7 +111,7 @@
               <td>Active Status</td>
               <td>Phone</td>
               <td>User Type</td>
-              <td>Merchant Id</td>
+              <td *ngIf="userType != 'user'">Merchant Id</td>
               <td>Amount</td>
               <td>Action</td>
             </tr>
@@ -119,9 +119,9 @@
             <tr
               *ngFor="
                 let user of (users
+                  | userFilter: { type: this.userType }
                   | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage }
-                  | userFilter: { type: this.userType });
+                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
                 let i = index
               "
             >
@@ -136,20 +136,28 @@
                 >
               </td>
               <td>{{ user.phone }}</td>
-              <td>{{ user.is_merchant ? "Merchant" : "User" }}</td>
-              <td>{{ user.merchant_unique_id }}</td>
+              <td>
+                {{
+                  user.is_merchant
+                    ? "Merchant"
+                    : user.is_admin
+                    ? "Admin"
+                    : "User"
+                }}
+              </td>
+              <td *ngIf="userType != 'user'">{{ user.merchant_unique_id }}</td>
               <td>{{ user.bucks_amount }}</td>
               <td>
                 <a
                   href="javascript:void(0);"
-                  title="Edit User"
+                  title="Edit"
                   (click)="editUser(user)"
                   ><em class="fa fa-pencil-square"></em
                 ></a>
                 /
                 <a
                   href="javascript:void(0);"
-                  title="Delete User"
+                  title="Delete"
                   (click)="deleteUser(user)"
                   ><em class="fa  fa-trash"></em></a
                 >/

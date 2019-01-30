@@ -36,6 +36,10 @@ export class ChangePasswordComponent implements OnInit {
           this.status = stats;
           this.successMessage = this.status.message;
           this.errorMessage = "";
+
+          this.oldpassword = "";
+          this.newpassword = "";
+          this.confpassword = "";
         },
         error => {
           this.errorMessage = error.error.message;
