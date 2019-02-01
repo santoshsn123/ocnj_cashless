@@ -118,6 +118,11 @@ export class createConvenience {
     }
   }
   onSubmit = () => {
+    this.errorMessage = "";
+    if (this.amountMin < 25) {
+      this.errorMessage = "Min Ammount Can not be less than 25";
+      return false;
+    }
     let object = {
       amountMin: this.amountMin,
       amountMax: this.amountMax,

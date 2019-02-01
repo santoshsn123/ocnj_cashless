@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>Create Cards</h2>
+<h2 mat-dialog-title>{{ pageData.type | titlecase }} Convenience Fees</h2>
 <mat-dialog-content class="mat-typography">
   <div mat-dialog-content>
-    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div *ngIf="errorMessage" class="invalid-feedback">{{ errorMessage }}</div>
     <form (ngSubmit)="onSubmit()">
       <table class="table">
         <tr>

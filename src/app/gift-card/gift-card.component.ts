@@ -137,8 +137,16 @@ export class createGiftCard {
   ) {}
 
   onSubmit = () => {
+    this.amountError = "";
+    if (!this.noOfCards || !this.amount) {
+      this.amountError = "Please enter values before proceed";
+      return false;
+    }
+    if (this.noOfCards < 1) {
+      this.amountError = "Please Enter valid card number";
+      return false;
+    }
     if (this.amount < 25) {
-      // console.log("amountError : - ", this.amount);
       this.amountError = "Please Enter amount more than 25";
     } else {
       this.amountError = "";

@@ -43,6 +43,8 @@
           class="form-control"
         >
           <option value=""> All</option>
+
+          <option value="admin"> Admin</option>
           <option value="user"> User</option>
           <option value="merchant"> Merchant</option>
         </select>
@@ -111,7 +113,7 @@
               <td>Active Status</td>
               <td>Phone</td>
               <td>User Type</td>
-              <td *ngIf="userType != 'user'">Merchant Id</td>
+              <td *ngIf="userType != 'user' && userType != 'admin'">Merchant Id</td>
               <td>Amount</td>
               <td>Action</td>
             </tr>
@@ -145,7 +147,7 @@
                     : "User"
                 }}
               </td>
-              <td *ngIf="userType != 'user'">{{ user.merchant_unique_id }}</td>
+              <td *ngIf="userType != 'user' && userType != 'admin'">{{ user.merchant_unique_id }}</td>
               <td>{{ user.bucks_amount }}</td>
               <td>
                 <a

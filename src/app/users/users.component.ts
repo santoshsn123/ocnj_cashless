@@ -88,13 +88,12 @@ export class UsersComponent implements OnInit {
     this.showerrorMessage = "";
   }
   ActiveInactive = user => {
-    console.log(user);
-    if (user.activeStatus == 1) {
-      if (confirm("Do you really want to Activate user?")) {
+    if (user.active_status == 1) {
+      if (confirm("Do you really want to Deactivate user?")) {
         this.updateStatus(user);
       }
     } else {
-      if (confirm("Do you really want to deactivate user?")) {
+      if (confirm("Do you really want to Activate user?")) {
         this.updateStatus(user);
       }
     }
@@ -246,7 +245,7 @@ export class DialogOverviewExampleDialog {
   onSubmit() {
     this.submitted = true;
     this.registerForm.value.isMerchant =
-      this.registerForm.value.userType == "Merchant" ? "true" : "false";
+      this.registerForm.value.userType == "Merchant" ? true : false;
 
     console.log(this.registerForm.value);
     // stop here if form is invalid
@@ -296,6 +295,7 @@ export class DialogOverviewExampleDialog {
   saveUser = () => {
     this.loading = true;
     this.errorMessage = "";
+    console.log(this.registerForm.value);
     if (this.data.type == "add") {
       this.user.saveUser(this.registerForm.value).subscribe(
         data => {

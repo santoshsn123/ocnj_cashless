@@ -38,7 +38,7 @@ const routes: Routes = [
     component: TransationsComponent
   },
   {
-    path: "purchasedBucks",
+    path: "purchasedCredit",
     component: PurchasedBucksComponent
   },
   {

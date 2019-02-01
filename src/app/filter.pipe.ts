@@ -68,6 +68,10 @@ export class FilterUsers implements PipeTransform {
         ? it.is_merchant == 1
           ? it
           : null
+        : searchText.type == "admin"
+        ? it.is_admin == 1
+          ? it
+          : null
         : it.is_merchant == 0
         ? it
         : null;
