@@ -17,20 +17,24 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllStats = () => {
-    this.transaction
-      .getAllMerchants()
-      .subscribe(merchantCount => (this.merchantCount = merchantCount));
+    this.transaction.getAllMerchants().subscribe(merchantCount => {
+      this.merchantCount = merchantCount;
+      this.merchantCount = this.merchantCount.count;
+    });
 
-    this.transaction
-      .getMTDMerchantPayout()
-      .subscribe(amount => (this.payoutAmount = amount));
+    this.transaction.getMTDMerchantPayout().subscribe(amount => {
+      this.payoutAmount = amount;
+      this.payoutAmount = this.payoutAmount.count;
+    });
 
-    this.transaction
-      .getMTDGiftCardPurchased()
-      .subscribe(amount => (this.giftAmount = amount));
+    this.transaction.getMTDGiftCardPurchased().subscribe(amount => {
+      this.giftAmount = amount;
+      this.giftAmount = this.giftAmount.count;
+    });
 
-    this.transaction
-      .getMTDCreditPurchased()
-      .subscribe(amount => (this.creditAmount = amount));
+    this.transaction.getMTDCreditPurchased().subscribe(amount => {
+      this.creditAmount = amount;
+      this.creditAmount = this.creditAmount.count;
+    });
   };
 }
