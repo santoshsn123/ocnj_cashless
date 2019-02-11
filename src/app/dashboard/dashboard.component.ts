@@ -9,17 +9,24 @@ import { TransactionsService } from "../services/transactions/transactions.servi
 export class DashboardComponent implements OnInit {
   constructor(private transaction: TransactionsService) {}
   merchantCount;
+  merchant;
+  activeMerchants;
   payoutAmount;
   giftAmount;
   creditAmount;
+
+  MerchantCurrentPage: number = 1;
+  MerchantItemsPerPage: number = 5;
   ngOnInit() {
     this.getAllStats();
   }
 
   getAllStats = () => {
     this.transaction.getAllMerchants().subscribe(merchantCount => {
-      this.merchantCount = merchantCount;
-      this.merchantCount = this.merchantCount.count;
+      console.log(merchantCount);
+      this.merchant = merchantCount;
+      this.merchantCount = this.merchant.count;
+      this.activeMerchants = this.merchant.rows;
     });
 
     this.transaction.getMTDMerchantPayout().subscribe(amount => {
@@ -37,4 +44,6 @@ export class DashboardComponent implements OnInit {
       this.creditAmount = this.creditAmount.count;
     });
   };
+
+  getActiveMerchants = () => {};
 }

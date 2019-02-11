@@ -56,6 +56,8 @@ import {
   createConvenience
 } from "./convenience-fees/convenience-fees.component";
 
+import { MatTabsModule } from "@angular/material";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,8 @@ import {
     MatAutocompleteModule,
     Angular2CsvModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [
     MatDatepickerModule,
