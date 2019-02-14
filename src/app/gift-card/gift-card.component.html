@@ -57,7 +57,7 @@
             <tr>
               <td>#</td>
               <td>Card Code</td>
-              <td>Expiry Date</td>
+              <td>Date</td>
               <td>Reedeem Status</td>
               <td>Amount</td>
               <td>Purchased By</td>
@@ -74,7 +74,7 @@
             >
               <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
               <td>{{ card.unique_code }}</td>
-              <td>{{ card.gift_expiry_date }}</td>
+              <td>{{ card.gift_expiry_date | date: "MM-dd-yyyy" }}</td>
               <td>{{ card.redeemed_status == 0 ? "Unclaimed" : "Claimed" }}</td>
               <td>{{ card.gift_card_value }}</td>
               <td>

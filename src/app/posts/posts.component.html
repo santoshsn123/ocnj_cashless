@@ -11,6 +11,7 @@
     </ol>
   </div>
   <!-- /.row -->
+
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">
@@ -18,128 +19,314 @@
         <span *ngIf="userDetails"
           >({{ userDetails.firstName + " " + userDetails.lastName }})</span
         >
+        <h3>{{ userType }}</h3>
       </h1>
     </div>
   </div>
+
   <div class="row">
-    <div class="col-md-6">
-      <div class="panel panel-default articles">
-        <div class="panel-heading">
-          Purchased Bucks
-        </div>
-        <div class="panel-body articles-container">
-          <table class="table">
-            <tr>
-              <td>#</td>
-              <td>Amount</td>
-              <td>Transaction Id</td>
-              <td>Date</td>
-            </tr>
-            <tr
-              *ngFor="
-                let bucks of (purchased_transaction
-                  | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
-                let i = index
-              "
-            >
-              <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ bucks.amount }}</td>
-              <td>{{ bucks.transactionId }}</td>
-              <td>{{ bucks.createdAt | date: "dd-MM-yyyy" }}</td>
-            </tr>
-          </table>
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <mat-tab-group>
+            <!-- /*********** Purchased Bucks Tab /*********** -->
+            <mat-tab label="Bucks Transfer" *ngIf="userType != 'Admin'">
+              <div
+                class="panel-body articles-container"
+                *ngIf="bucksTransfer; else noBucksTransfer"
+              >
+                <table class="table">
+                  <tr>
+                    <td>#</td>
+                    <td>Amount</td>
+                    <td>Transaction Id</td>
+                    <td>Transaction Type</td>
+                    <td>Description</td>
+                    <td>From</td>
+                    <td>To</td>
+                    <td>Date</td>
+                  </tr>
+                  <tr
+                    *ngFor="
+                      let bucks of (bucksTransfer
+                        | paginate
+                          : {
+                              id: 'bucksTransfer',
+                              itemsPerPage: itemsPerPage,
+                              currentPage: currentPage
+                            });
+                      let i = index
+                    "
+                  >
+                    <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+                    <td>
+                      {{ bucks.transactionType == "Refund" ? "-" : ""
+                      }}{{ bucks.amount }}
+                    </td>
+                    <td>{{ bucks.transactionId }}</td>
+                    <td>{{ bucks.transactionType }}</td>
+                    <td>{{ bucks.description }}</td>
+                    <td>
+                      {{ bucks.from.firstName + " " + bucks.from.lastName }}
+                    </td>
+                    <td>{{ bucks.to.firstName + " " + bucks.to.lastName }}</td>
 
-          <pagination-controls
-            (pageChange)="currentPage = $event"
-          ></pagination-controls>
+                    <td>{{ bucks.createdAt | date: "MM-dd-yyyy" }}</td>
+                  </tr>
+                </table>
+
+                <pagination-controls
+                  id="bucksTransfer"
+                  (pageChange)="currentPage = $event"
+                ></pagination-controls>
+              </div>
+              <ng-template #noBucksTransfer
+                ><div class="no-content-class">
+                  No Bucks transferred to/by {{ userFirstName }}
+                </div>
+              </ng-template>
+            </mat-tab>
+
+            <!-- /*********** Purchased Gift Card /*********** -->
+            <mat-tab label="Purchased Gift Cards">
+              <div
+                class="panel-body articles-container"
+                *ngIf="purchasedGiftCard; else noPurchasedGiftCard"
+              >
+                <table class="table">
+                  <tr>
+                    <td>#</td>
+                    <td>Amount</td>
+                    <td>Transaction Id</td>
+                    <td>Claimed Status</td>
+                    <td>Claimed By</td>
+                    <td>Purchased By</td>
+                    <td>Date</td>
+                  </tr>
+                  <tr
+                    *ngFor="
+                      let card of (purchasedGiftCard
+                        | paginate
+                          : {
+                              id: 'purchasedGiftCards',
+                              itemsPerPage: itemsPerPage,
+                              currentPage: currentPage_gift
+                            });
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{ itemsPerPage_gift * (currentPage_gift - 1) + i + 1 }}
+                    </td>
+                    <td>{{ card.giftCardValue }}</td>
+                    <td>{{ card.uniqueCode }}</td>
+                    <td>
+                      {{ card.redeemedStatus == "1" ? "Claimed" : "UnClaimed" }}
+                    </td>
+                    <td>
+                      {{
+                        card.claimedBy
+                          ? card.claimedBy.firstName +
+                            " " +
+                            card.claimedBy.lastName
+                          : ""
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        card.purchased
+                          ? card.purchased.firstName +
+                            " " +
+                            card.purchased.lastName
+                          : ""
+                      }}
+                    </td>
+                    <td>{{ card.createdAt | date: "MM-dd-yyyy" }}</td>
+                  </tr>
+                </table>
+
+                <pagination-controls
+                  id="purchasedGiftCards"
+                  (pageChange)="currentPage_gift = $event"
+                ></pagination-controls>
+              </div>
+              <ng-template #noPurchasedGiftCard
+                ><div class="no-content-class">
+                  {{ userFirstName }} have not purchased any gift card yet.
+                </div></ng-template
+              >
+            </mat-tab>
+
+            <!-- /*********** Purchased Bucks /*********** -->
+            <mat-tab label="ACH Transfer" *ngIf="userType == 'Merchant'">
+              <div
+                class="panel-body articles-container"
+                *ngIf="achTransfer; else noACHTransfer"
+              >
+                <table class="table">
+                  <tr>
+                    <td>#</td>
+                    <td>Amount</td>
+                    <td>Transaction Id</td>
+                    <td>Date</td>
+                  </tr>
+                  <tr
+                    *ngFor="
+                      let bucks of (achTransfer
+                        | paginate
+                          : {
+                              id: 'achTransfer',
+                              itemsPerPage: itemsPerPage,
+                              currentPage: currentPage_bucks
+                            });
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{ itemsPerPage_bucks * (currentPage_bucks - 1) + i + 1 }}
+                    </td>
+                    <td>{{ bucks.amount }}</td>
+                    <td>{{ bucks.transactionId }}</td>
+                    <td>{{ bucks.createdAt | date: "MM-dd-yyyy" }}</td>
+                  </tr>
+                </table>
+
+                <pagination-controls
+                  id="achTransfer"
+                  (pageChange)="currentPage_bucks = $event"
+                ></pagination-controls>
+              </div>
+              <ng-template #noACHTransfer>
+                <div class="no-content-class">
+                  No ACH Transfer done yet to {{ userFirstName }}.
+                </div>
+              </ng-template>
+            </mat-tab>
+
+            <!-- /*********** Purchased Bucks /*********** -->
+            <mat-tab label="Bucks Purchase" *ngIf="userType == 'User'">
+              <div
+                class="panel-body articles-container"
+                *ngIf="purchasedBucks; else noPurchasedGiftCard"
+              >
+                <table class="table">
+                  <tr>
+                    <td>#</td>
+                    <td>Amount</td>
+                    <td>Transaction Id</td>
+                    <td>Date</td>
+                  </tr>
+                  <tr
+                    *ngFor="
+                      let bucks of (purchasedBucks
+                        | paginate
+                          : {
+                              id: 'Purchasedbucks',
+                              itemsPerPage: itemsPerPage,
+                              currentPage: currentPage_Purchasedbucks
+                            });
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{
+                        itemsPerPage_bucks * (currentPage_Purchasedbucks - 1) +
+                          i +
+                          1
+                      }}
+                    </td>
+                    <td>{{ bucks.amount }}</td>
+                    <td>{{ bucks.transactionId }}</td>
+                    <td>{{ bucks.createdAt | date: "MM-dd-yyyy" }}</td>
+                  </tr>
+                </table>
+
+                <pagination-controls
+                  id="Purchasedbucks"
+                  (pageChange)="currentPage_Purchasedbucks = $event"
+                ></pagination-controls>
+              </div>
+              <ng-template #noPurchasedGiftCard>
+                <div class="no-content-class">
+                  {{ userFirstName }} have not purchased bucks yet.
+                </div>
+              </ng-template>
+            </mat-tab>
+
+            <!-- /*********** Spent Gift Card /*********** -->
+            <mat-tab label="Claimed Gift Card" *ngIf="userType == 'User'">
+              <div
+                class="panel-body articles-container"
+                *ngIf="spentGiftCards; else noClaimedGiftCard"
+              >
+                <table class="table">
+                  <tr>
+                    <td>#</td>
+                    <td>Amount</td>
+                    <td>Transaction Id</td>
+                    <td>Claimed Status</td>
+                    <td>Claimed By</td>
+                    <td>Purchased By</td>
+                    <td>Date</td>
+                  </tr>
+                  <tr
+                    *ngFor="
+                      let card of (spentGiftCards
+                        | paginate
+                          : {
+                              id: 'spentGiftCards',
+                              itemsPerPage: itemsPerPage,
+                              currentPage: currentPage_giftSpent
+                            });
+                      let i = index
+                    "
+                  >
+                    <td>
+                      {{
+                        itemsPerPage_gift * (currentPage_giftSpent - 1) + i + 1
+                      }}
+                    </td>
+                    <td>{{ card.giftCardValue }}</td>
+                    <td>{{ card.uniqueCode }}</td>
+                    <td>
+                      {{ card.redeemedStatus == "1" ? "Claimed" : "UnClaimed" }}
+                    </td>
+                    <td>
+                      {{
+                        card.claimedBy
+                          ? card.claimedBy.firstName +
+                            " " +
+                            card.claimedBy.lastName
+                          : ""
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        card.purchased
+                          ? card.purchased.firstName +
+                            " " +
+                            card.purchased.lastName
+                          : ""
+                      }}
+                    </td>
+                    <td>{{ card.createdAt | date: "MM-dd-yyyy" }}</td>
+                  </tr>
+                </table>
+
+                <pagination-controls
+                  id="spentGiftCards"
+                  (pageChange)="currentPage_giftSpent = $event"
+                ></pagination-controls>
+              </div>
+              <ng-template #noClaimedGiftCard>
+                <div class="no-content-class">
+                  {{ userFirstName }} have not claimed any Gift Card yet.
+                </div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
         </div>
       </div>
-
-      <div class="col-sm-12"></div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="panel panel-default articles">
-        <div class="panel-heading">
-          Gift Card
-        </div>
-
-        <div class="panel-body articles-container">
-          <table class="table">
-            <tr>
-              <td>#</td>
-              <td>Amount</td>
-              <td>Transaction Id</td>
-              <td>Date</td>
-            </tr>
-            <tr
-              *ngFor="
-                let card of (gift_card_transaction
-                  | paginate
-                    : {
-                        itemsPerPage: itemsPerPage_gift,
-                        currentPage: currentPage_gift
-                      });
-                let i = index
-              "
-            >
-              <td>{{ itemsPerPage_gift * (currentPage_gift - 1) + i + 1 }}</td>
-              <td>{{ card.amount }}</td>
-              <td>{{ card.transactionId }}</td>
-              <td>{{ card.createdAt | date: "dd-MM-yyyy" }}</td>
-            </tr>
-          </table>
-
-          <pagination-controls
-            (pageChange)="currentPage_gift = $event"
-          ></pagination-controls>
-        </div>
-      </div>
-
-      <div class="col-sm-12"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="panel panel-default articles">
-        <div class="panel-heading">
-          Bucks
-        </div>
-
-        <div class="panel-body articles-container">
-          <table class="table">
-            <tr>
-              <td>#</td>
-              <td>Amount</td>
-              <td>Transaction Id</td>
-              <td>Date</td>
-            </tr>
-            <tr
-              *ngFor="
-                let bucks of (bucks
-                  | paginate
-                    : {
-                        itemsPerPage: itemsPerPage_gift,
-                        currentPage: currentPage_gift
-                      });
-                let i = index
-              "
-            >
-              <td>{{ itemsPerPage_gift * (currentPage_gift - 1) + i + 1 }}</td>
-              <td>{{ bucks.amount }}</td>
-              <td>{{ bucks.transactionId }}</td>
-              <td>{{ bucks.createdAt | date: "dd-MM-yyyy" }}</td>
-            </tr>
-          </table>
-
-          <pagination-controls
-            (pageChange)="currentPage_gift = $event"
-          ></pagination-controls>
-        </div>
-      </div>
-
-      <div class="col-sm-12"></div>
     </div>
   </div>
 </div>

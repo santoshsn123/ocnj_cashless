@@ -22,6 +22,12 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword = () => {
+    this.errorMessage = "";
+    if (!this.oldpassword || !this.newpassword || !this.confpassword) {
+      this.errorMessage = "Please Fill All Fields";
+      return false;
+    }
+
     this.user
       .changePassword(
         {
