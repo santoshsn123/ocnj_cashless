@@ -32,4 +32,13 @@ export class TransactionsService {
   getMTDCreditPurchased = () => {
     return this.http.get(this.baseUrl + "/v1/admin/MTDCreditPurchased");
   };
+  getACHTransactionDetails = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/getACHTransferDetails");
+  };
+  getDataBeforeTransactions = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/getDataBeforeTransactions");
+  };
+  generateACHTransfer = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/createFile");
+  };
 }

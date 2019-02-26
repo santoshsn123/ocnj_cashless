@@ -188,7 +188,8 @@ export class DialogOverviewExampleDialog {
       cpassword: ["", [Validators.required]],
       isMerchant: ["", []],
       bankRoutingNo: ["", []],
-      bankAccountNo: ["", []]
+      bankAccountNo: ["", []],
+      bankAccountType: ["", []]
     });
 
     //Fetch data to display in form to update
@@ -217,6 +218,9 @@ export class DialogOverviewExampleDialog {
             : "",
           bankAccountNo: this.FetchedUser.bankdetails
             ? this.FetchedUser.bankdetails.bankAccountNo
+            : "",
+          bankAccountType: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.bankAccountType
             : ""
         });
         this.registerForm.get("password").clearValidators();
@@ -264,15 +268,17 @@ export class DialogOverviewExampleDialog {
       if (this.userType == "Merchant") {
         if (
           !this.registerForm.value.bankRoutingNo ||
-          !this.registerForm.value.bankAccountNo
+          !this.registerForm.value.bankAccountNo ||
+          !this.registerForm.value.bankAccountType
         ) {
-          this.showBankingError = "Please enter Bank Details.";
+          this.showBankingError = "Please enter all bank details.";
           return;
         } else {
           this.showBankingError = "";
           this.registerForm.value.accountDetails = {
             bankRoutingNo: this.registerForm.value.bankRoutingNo,
-            bankAccountNo: this.registerForm.value.bankAccountNo
+            bankAccountNo: this.registerForm.value.bankAccountNo,
+            bankAccountType: this.registerForm.value.bankAccountType
           };
           this.saveUser();
         }

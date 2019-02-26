@@ -57,6 +57,10 @@ import {
 } from "./convenience-fees/convenience-fees.component";
 
 import { MatTabsModule } from "@angular/material";
+import {
+  AchTransferComponent,
+  DialogToShowACHDetails
+} from "./ach-transfer/ach-transfer.component";
 
 @NgModule({
   declarations: [
@@ -68,6 +72,7 @@ import { MatTabsModule } from "@angular/material";
     LoginComponent,
     DashboardComponent,
     DialogOverviewExampleDialog,
+    DialogToShowACHDetails,
     createGiftCard,
     GooglePlacesDirective,
     GiftCardComponent,
@@ -77,7 +82,8 @@ import { MatTabsModule } from "@angular/material";
     PurchasedBucksComponent,
     ChangePasswordComponent,
     ConvenienceFeesComponent,
-    createConvenience
+    createConvenience,
+    AchTransferComponent
   ],
   imports: [
     BrowserModule,
@@ -111,8 +117,14 @@ import { MatTabsModule } from "@angular/material";
   entryComponents: [
     DialogOverviewExampleDialog,
     createGiftCard,
-    createConvenience
+    createConvenience,
+    DialogToShowACHDetails
   ],
-  exports: [DialogOverviewExampleDialog, createGiftCard, createConvenience]
+  exports: [
+    DialogOverviewExampleDialog,
+    createGiftCard,
+    createConvenience,
+    DialogToShowACHDetails
+  ]
 })
 export class AppModule {}

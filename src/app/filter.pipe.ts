@@ -72,7 +72,7 @@ export class FilterUsers implements PipeTransform {
         ? it.is_admin == 1
           ? it
           : null
-        : it.is_merchant == 0
+        : it.is_merchant == 0 && it.is_admin !== 1
         ? it
         : null;
     });
