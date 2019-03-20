@@ -1,100 +1,106 @@
-<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-  <div class="row">
-    <ol class="breadcrumb">
-      <li>
-        <a href="#"> <em class="fa fa-home"></em> </a>
-      </li>
-      <li class="active">Gift Card</li>
-    </ol>
-  </div>
+<div class="row" *ngIf="!dashboardGiftCard">
+  <ol class="breadcrumb">
+    <li>
+      <a href="#"> <em class="fa fa-home"></em> </a>
+    </li>
+    <li class="active">Gift Card</li>
+  </ol>
+</div>
 
-  <div class="row">
-    <div class="col-lg-12"><h1 class="page-header">Gift Card</h1></div>
-  </div>
+<div class="row" *ngIf="!dashboardGiftCard">
+  <div class="col-lg-12"><h1 class="page-header">Gift Card</h1></div>
+</div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default articles">
-        <div class="panel-heading">
-          Gift Card Management
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default articles">
+      <div class="panel-heading">
+        {{
+          dashboardGiftCard ? "This Month Gift Cards" : "Gift Card Management"
+        }}
 
-          <ul class="pull-right panel-settings panel-button-tab-right">
-            <li class="dropdown">
-              <a
-                href="javascript:void(0);"
-                class="pull-right dropdown-toggle"
-                data-toggle="dropdown"
-                (click)="openDialog()"
-              >
-                <em class="fas fa-plus"></em>
-              </a>
-            </li>
-          </ul>
-          <ul class="pull-right panel-settings panel-button-tab-right">
-            <li class="dropdown">
-              <a
-                href="javascript:void(0);"
-                class="pull-right dropdown-toggle"
-                title="Download"
-                (click)="downloadAllCards()"
-              >
-                <em class="fa fa-cloud-download">&nbsp;</em>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
-          <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
-          }}<a
-            href="javascript:void(0);"
-            (click)="closeMessage()"
-            class="pull-right"
-            ><em class="fa fa-lg fa-close"></em
-          ></a>
-        </div>
-        <div class="panel-body articles-container">
-          <table class="table" *ngIf="giftCards && !loading; else noCards">
-            <tr>
-              <td>#</td>
-              <td>Card Code</td>
-              <td>Date</td>
-              <td>Reedeem Status</td>
-              <td>Amount</td>
-              <td>Purchased By</td>
-              <td>Claimed By</td>
-              <!-- <td>Action</td> -->
-            </tr>
-            <tr
-              *ngFor="
-                let card of (giftCards
-                  | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage });
-                let i = index
-              "
+        <ul class="pull-right panel-settings panel-button-tab-right">
+          <li class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="pull-right dropdown-toggle"
+              data-toggle="dropdown"
+              (click)="openDialog()"
             >
-              <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-              <td>{{ card.unique_code }}</td>
-              <td>{{ card.gift_expiry_date | date: "MM-dd-yyyy" }}</td>
-              <td>{{ card.redeemed_status == 0 ? "Unclaimed" : "Claimed" }}</td>
-              <td>{{ card.gift_card_value }}</td>
-              <td>
+              <em class="fas fa-plus"></em>
+            </a>
+          </li>
+        </ul>
+        <ul class="pull-right panel-settings panel-button-tab-right">
+          <li class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="pull-right dropdown-toggle"
+              title="Download"
+              (click)="downloadAllCards()"
+            >
+              <em class="fa fa-cloud-download">&nbsp;</em>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
+        }}<a
+          href="javascript:void(0);"
+          (click)="closeMessage()"
+          class="pull-right"
+          ><em class="fa fa-lg fa-close"></em
+        ></a>
+      </div>
+      <div class="panel-body articles-container">
+        <table class="table" *ngIf="giftCards && !loading; else noCards">
+          <tr>
+            <td>#</td>
+            <td>Card Code</td>
+            <td>Date</td>
+            <td>Reedeem Status</td>
+            <td>Amount</td>
+            <td>Purchased By</td>
+            <td>Claimed By</td>
+            <!-- <td>Action</td> -->
+          </tr>
+          <tr
+            *ngFor="
+              let card of (giftCards
+                | giftFilter: { dashboardGiftCard: dashboardGiftCard }
+                | paginate
+                  : {
+                      id: 'giftCard',
+                      itemsPerPage: itemsPerPage,
+                      currentPage: currentPage
+                    });
+              let i = index
+            "
+          >
+            <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+            <td>{{ card.unique_code }}</td>
+            <td>{{ card.createdAt | date: "MM-dd-yyyy" }}</td>
+            <td>{{ card.redeemed_status == 0 ? "Unclaimed" : "Claimed" }}</td>
+            <td>{{ card.gift_card_value }}</td>
+            <td>
+              <a
+                href="javascript:void(0);"
+                (click)="gotoUserDetails(card.p_uuid)"
+                >{{ card.p_firstname + " " + card.p_lastname }}</a
+              >
+            </td>
+            <td>
+              <span *ngIf="card.used_firstname">
                 <a
                   href="javascript:void(0);"
-                  (click)="gotoUserDetails(card.p_uuid)"
-                  >{{ card.p_firstname + " " + card.p_lastname }}</a
+                  (click)="gotoUserDetails(card.used_uuid)"
+                  >{{ card.used_firstname + " " + card.used_lastname }}</a
                 >
-              </td>
-              <td>
-                <span *ngIf="card.used_firstname">
-                  <a
-                    href="javascript:void(0);"
-                    (click)="gotoUserDetails(card.used_uuid)"
-                    >{{ card.used_firstname + " " + card.used_lastname }}</a
-                  >
-                </span>
-                <span *ngIf="!card.used_firstname">None</span>
-              </td>
-              <!-- <td>
+              </span>
+              <span *ngIf="!card.used_firstname">None</span>
+            </td>
+            <!-- <td>
                 <a
                   href="javascript:void(0);"
                   title="Delete User"
@@ -102,22 +108,22 @@
                   ><em class="fa  fa-trash"></em
                 ></a>
               </td> -->
-            </tr>
-          </table>
+          </tr>
+        </table>
 
-          <div class="loading_position">
-            <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
-          </div>
-          <ng-template #noCards> No Cards Available </ng-template>
-
-          <pagination-controls
-            *ngIf="!loading"
-            (pageChange)="currentPage = $event"
-          ></pagination-controls>
+        <div class="loading_position">
+          <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
         </div>
-      </div>
+        <ng-template #noCards> No Cards Available </ng-template>
 
-      <div class="col-sm-12"></div>
+        <pagination-controls
+          *ngIf="!loading"
+          id="giftCard"
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
     </div>
+
+    <div class="col-sm-12"></div>
   </div>
 </div>

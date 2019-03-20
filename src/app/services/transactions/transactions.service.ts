@@ -28,6 +28,9 @@ export class TransactionsService {
   getMTDGiftCardPurchased = () => {
     return this.http.get(this.baseUrl + "/v1/admin/MTDGiftCardsPurchased");
   };
+  getAllConvenienceFeesPaid = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/getAllConvenienceFeesPaid");
+  };
 
   getMTDCreditPurchased = () => {
     return this.http.get(this.baseUrl + "/v1/admin/MTDCreditPurchased");
@@ -40,5 +43,8 @@ export class TransactionsService {
   };
   generateACHTransfer = () => {
     return this.http.get(this.baseUrl + "/v1/ach/createFile");
+  };
+  getAllAdminCount = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/getAllAdminCount");
   };
 }

@@ -39,4 +39,7 @@ export class GiftCardService {
   updateConvenienceFees = (id, Object) => {
     return this.http.put(this.baseUrl + "/v1/convenience_fee/" + id, Object);
   };
+  getConvenienceFeesPaid = () => {
+    return this.http.get(this.baseUrl + "/v1/convenience_fees_paid/");
+  };
 }

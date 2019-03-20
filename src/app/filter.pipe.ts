@@ -63,10 +63,13 @@ export class FilterUsers implements PipeTransform {
       return items;
     }
     items = items.filter(it => {
-      // console.log(it);
       return searchText.type == "merchant"
         ? it.is_merchant == 1
-          ? it
+          ? searchText.activeInactiveStatus == "active"
+            ? it.active_status == "1"
+              ? it
+              : null
+            : it
           : null
         : searchText.type == "admin"
         ? it.is_admin == 1
@@ -75,6 +78,107 @@ export class FilterUsers implements PipeTransform {
         : it.is_merchant == 0 && it.is_admin !== 1
         ? it
         : null;
+    });
+    return items;
+  }
+}
+
+@Pipe({
+  name: "achFilter"
+})
+export class FilterACHTransfer implements PipeTransform {
+  transform(items: any[], searchText): any[] {
+    if (!items) return [];
+    if (!searchText.dashboardACH) {
+      return items;
+    }
+    items = items.filter(it => {
+      var currentDate = new Date(it.createdAt);
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      var firstDate = new Date(month + "-01-" + year);
+      if (currentDate > firstDate) {
+        return it;
+      } else {
+        return null;
+      }
+    });
+    return items;
+  }
+}
+
+@Pipe({
+  name: "giftFilter"
+})
+export class FilterGiftCard implements PipeTransform {
+  transform(items: any[], searchText): any[] {
+    if (!items) return [];
+    if (!searchText.dashboardGiftCard) {
+      return items;
+    }
+    items = items.filter(it => {
+      var currentDate = new Date(it.createdAt);
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      var firstDate = new Date(month + "-01-" + year);
+      if (currentDate > firstDate) {
+        return it;
+      } else {
+        return null;
+      }
+    });
+    return items;
+  }
+}
+
+@Pipe({
+  name: "bucksFilter"
+})
+export class FilterBucksPurchased implements PipeTransform {
+  transform(items: any[], searchText): any[] {
+    if (!items) return [];
+    if (!searchText.dashboardPurchasedCredits) {
+      return items;
+    }
+    items = items.filter(it => {
+      console.log(it);
+      var currentDate = new Date(it.createdAt);
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      var firstDate = new Date(month + "-01-" + year);
+      if (currentDate > firstDate) {
+        return it;
+      } else {
+        return null;
+      }
+    });
+    return items;
+  }
+}
+
+@Pipe({
+  name: "convenienceFilter"
+})
+export class FilterConveniencePaid implements PipeTransform {
+  transform(items: any[], searchText): any[] {
+    if (!items) return [];
+    if (!searchText.dashboardGiftCard) {
+      return items;
+    }
+    items = items.filter(it => {
+      var currentDate = new Date(it.createdAt);
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      var firstDate = new Date(month + "-01-" + year);
+      if (currentDate > firstDate) {
+        return it;
+      } else {
+        return null;
+      }
     });
     return items;
   }

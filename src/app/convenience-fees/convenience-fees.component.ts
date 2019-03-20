@@ -24,7 +24,6 @@ export class ConvenienceFeesComponent implements OnInit {
   getAllConvenience = () => {
     this.loading = true;
     this.giftcard.getConvenienceFees().subscribe(data => {
-      console.log(data);
       this.conveniences = data;
       this.loading = false;
     });

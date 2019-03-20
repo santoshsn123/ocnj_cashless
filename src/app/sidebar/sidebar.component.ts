@@ -31,8 +31,9 @@ export class SidebarComponent implements OnInit {
     this.username = localStorage.getItem("username"); // Check if the Username saved in localstorage
 
     //If Not available in localstorage get username from the api call.
+    let uuid = this.user ? this.user.uuid : "";
     if (!this.username) {
-      this.userData.getSingleUser(this.user.uuid).subscribe(data => {
+      this.userData.getSingleUser(uuid).subscribe(data => {
         this.userdetails = data;
         this.username =
           this.userdetails.user.firstName +

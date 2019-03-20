@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 import { TransactionsService } from "../services/transactions/transactions.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { DialogData } from "../users/users.component";
@@ -16,6 +16,7 @@ export class AchTransferComponent implements OnInit {
   downloadUrl;
   loading: boolean = false;
   showsuccessMessage;
+  @Input() dashboardACH: string;
   constructor(
     private transaction: TransactionsService,
     private dialog: MatDialog

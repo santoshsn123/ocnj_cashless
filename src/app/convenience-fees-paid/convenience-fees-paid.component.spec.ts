@@ -1,20 +1,20 @@
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { AchTransferComponent } from './ach-transfer.component';
+// import { ConvenienceFeesPaidComponent } from './convenience-fees-paid.component';
 
-// describe('AchTransferComponent', () => {
-//   let component: AchTransferComponent;
-//   let fixture: ComponentFixture<AchTransferComponent>;
+// describe('ConvenienceFeesPaidComponent', () => {
+//   let component: ConvenienceFeesPaidComponent;
+//   let fixture: ComponentFixture<ConvenienceFeesPaidComponent>;
 
 //   beforeEach(async(() => {
 //     TestBed.configureTestingModule({
-//       declarations: [ AchTransferComponent ]
+//       declarations: [ ConvenienceFeesPaidComponent ]
 //     })
 //     .compileComponents();
 //   }));
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(AchTransferComponent);
+//     fixture = TestBed.createComponent(ConvenienceFeesPaidComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

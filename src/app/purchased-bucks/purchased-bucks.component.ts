@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { TransactionsService } from "../services/transactions/transactions.service";
 import { Router } from "@angular/router";
 
@@ -15,6 +15,7 @@ export class PurchasedBucksComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   loading: boolean = true;
+  @Input() dashboardPurchasedCredits: string;
   ngOnInit() {
     this.loading = true;
     this.getPrchasedBucks();
@@ -22,7 +23,6 @@ export class PurchasedBucksComponent implements OnInit {
 
   getPrchasedBucks = () => {
     this.trans.getPurchasedBucks().subscribe(data => {
-      console.log(data);
       this.purchasedBuck = data;
       this.loading = false;
     });

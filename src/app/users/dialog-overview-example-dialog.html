@@ -149,8 +149,19 @@
               Saving
             </td>
           </tr>
+          <tr>
+            <td>Company Name.</td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                name="companyName"
+                formControlName="companyName"
+              />
+            </td>
+          </tr>
         </tbody>
-        <tr>
+        <!-- <tr>
           <td>Address</td>
           <td>
             <input
@@ -166,7 +177,7 @@
               Please Add user address
             </div>
           </td>
-        </tr>
+        </tr> -->
         <tr *ngIf="data.type == 'add'">
           <td>Password</td>
           <td>

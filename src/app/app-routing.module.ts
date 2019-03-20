@@ -12,6 +12,7 @@ import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.compo
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 import { ConvenienceFeesComponent } from "./convenience-fees/convenience-fees.component";
 import { AchTransferComponent } from "./ach-transfer/ach-transfer.component";
+import { ConvenienceFeesPaidComponent } from "./convenience-fees-paid/convenience-fees-paid.component";
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: "convenienceFees",
     component: ConvenienceFeesComponent
+  },
+  {
+    path: "convenienceFeesPaid",
+    component: ConvenienceFeesPaidComponent
   },
   {
     path: "achTransfer",

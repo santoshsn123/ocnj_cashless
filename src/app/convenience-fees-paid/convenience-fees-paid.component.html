@@ -1,34 +1,20 @@
-<div class="row">
+<div class="row" *ngIf="!dashboardConvenienceFees">
   <ol class="breadcrumb">
     <li>
       <a href="#"> <em class="fa fa-home"></em> </a>
     </li>
-    <li class="active">Transactions</li>
+    <li class="active">Convenience Fees Paid</li>
   </ol>
 </div>
+<!-- 
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Convenience Fees Paid</h1>
+  </div>
+</div> -->
 <div class="row">
   <div class="col-md-offset-3 col-md-6 ">
     <form class="example-form">
-      <mat-form-field class="example-full-width">
-        <input
-          type="text"
-          placeholder="Select Merchant"
-          aria-label="Number"
-          matInput
-          [formControl]="myControl"
-          [matAutocomplete]="auto"
-          [(ngModel)]="merchantName"
-          (input)="clickedFunction()"
-        />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let option of (filteredOptions | async)"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
       <mat-form-field>
         <input
           matInput
@@ -62,66 +48,73 @@
   <div class="col-md-12">
     <div class="panel panel-default articles">
       <div class="panel-heading">
-        Transactions
+        Convenience Fees Paid
+
         <ul class="pull-right panel-settings panel-button-tab-right">
           <li class="dropdown">
             <a
               href="javascript:void(0);"
               class="pull-right dropdown-toggle"
-              title="Download"
-              (click)="downloadTransactions()"
+              data-toggle="dropdown"
             >
-              <em class="fa fa-cloud-download">&nbsp;</em>
+              <!-- (click)="openDialog()" -->
+              <em class="fas fa-plus"></em>
             </a>
           </li>
         </ul>
       </div>
+      <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
+        }}<a
+          href="javascript:void(0);"
+          (click)="closeMessage()"
+          class="pull-right"
+          ><em class="fa fa-lg fa-close"></em
+        ></a>
+      </div>
       <div class="panel-body articles-container">
-        <table
-          class="table"
-          *ngIf="transactions && !loading; else noTransactions"
-        >
-          <thead>
-            <tr>
-              <td>#</td>
-              <td>Transaction Id</td>
-              <td>Bucks</td>
-              <td>Description</td>
-              <td>Date</td>
-              <td>From</td>
-              <td>To</td>
-            </tr>
-          </thead>
+        <table class="table" *ngIf="conveniences && !loading; else noCards">
+          <tr>
+            <td>#</td>
+            <td>Convenience Fees</td>
+            <td>Transaction Type</td>
+            <td>User</td>
+            <td>Transaction Id</td>
+            <td>Date</td>
+          </tr>
           <tr
             *ngFor="
-              let trans of (transactions
-                | filter
-                  : {
-                      searchString: this.merchantName,
-                      startDate: this.startDate,
-                      endDate: this.endDate
-                    }
+              let conv of (conveniences
+                | filter: { startDate: startDate, endDate: endDate }
                 | paginate
-                  : { itemsPerPage: itemsPerPage, currentPage: currentPage });
+                  : {
+                      id: 'conveniencePaid',
+                      itemsPerPage: itemsPerPage,
+                      currentPage: currentPage
+                    });
               let i = index
             "
           >
             <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-            <td>{{ trans.transaction_id }}</td>
-            <td>{{ trans.amount }}</td>
-            <td>{{ trans.description }}</td>
-            <td>{{ trans.createdAt | date: "MM-dd-yyyy" }}</td>
-            <td>{{ trans.from_email }}</td>
-            <td>{{ trans.to_firstname }}</td>
+            <td>{{ conv.convenienceFee }}</td>
+            <td>{{ conv.transactionFor }}</td>
+            <td>{{ conv.user.firstName + " " + conv.user.lastName }}</td>
+            <td>
+              {{ conv.transactionId }}
+            </td>
+            <td>
+              {{ conv.createdAt | date: "MM-dd-yyyy" }}
+            </td>
           </tr>
         </table>
 
         <div class="loading_position">
           <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
         </div>
-        <ng-template #noTransactions> No Transactions Available </ng-template>
+        <ng-template #noCards> No convenience Fees Added Yet </ng-template>
 
         <pagination-controls
+          id="conveniencePaid"
           *ngIf="!loading"
           (pageChange)="currentPage = $event"
         ></pagination-controls>

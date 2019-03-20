@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 import { DataService } from "../data.service";
 import { Observable } from "rxjs";
 import { UsersService } from "../services/users/users.service";
@@ -33,14 +33,18 @@ export class UsersComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   userType: string = "";
-
+  activestatus = "";
   loading: boolean = true;
+  @Input() dashboardData: string;
+
   constructor(
     private data: DataService,
     private user: UsersService,
     public dialog: MatDialog,
     private router: Router
-  ) {}
+  ) {
+    // console.log("dynamicdata : - ", this.dynamicdata);
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
@@ -80,8 +84,11 @@ export class UsersComponent implements OnInit {
   };
 
   ngOnInit() {
+    // console.log("dynamicdata init : - ", this.dashboardData);
+    this.userType = this.dashboardData;
     this.loading = true;
     this.loadUsers();
+    this.activestatus = this.dashboardData ? "active" : "";
   }
   closeMessage() {
     this.showsuccessMessage = "";
@@ -183,13 +190,14 @@ export class DialogOverviewExampleDialog {
       firstName: ["", [Validators.required]],
       lastName: ["", [Validators.required]],
       userType: ["", [Validators.required]],
-      address: ["", [Validators.required]],
+      // address: ["", [Validators.required]],
       userName: ["", [Validators.required]],
       cpassword: ["", [Validators.required]],
       isMerchant: ["", []],
       bankRoutingNo: ["", []],
       bankAccountNo: ["", []],
-      bankAccountType: ["", []]
+      bankAccountType: ["", []],
+      companyName: ["", []]
     });
 
     //Fetch data to display in form to update
@@ -210,7 +218,7 @@ export class DialogOverviewExampleDialog {
             : "User",
           // isMerchant:
           //   this.FetchedUser.user.userType == "Merchant" ? "true" : "false",
-          address: this.FetchedUser.location.localAddress,
+          // address: this.FetchedUser.location.localAddress,
           userName: this.FetchedUser.user.userName,
           cpassword: this.FetchedUser.user.cpassword,
           bankRoutingNo: this.FetchedUser.bankdetails
@@ -221,6 +229,9 @@ export class DialogOverviewExampleDialog {
             : "",
           bankAccountType: this.FetchedUser.bankdetails
             ? this.FetchedUser.bankdetails.bankAccountType
+            : "",
+          companyName: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.companyName
             : ""
         });
         this.registerForm.get("password").clearValidators();
@@ -278,7 +289,8 @@ export class DialogOverviewExampleDialog {
           this.registerForm.value.accountDetails = {
             bankRoutingNo: this.registerForm.value.bankRoutingNo,
             bankAccountNo: this.registerForm.value.bankAccountNo,
-            bankAccountType: this.registerForm.value.bankAccountType
+            bankAccountType: this.registerForm.value.bankAccountType,
+            companyName: this.registerForm.value.companyName
           };
           this.saveUser();
         }

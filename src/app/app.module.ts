@@ -44,7 +44,14 @@ import { TransationsComponent } from "./transations/transations.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 
-import { FilterPipe, FilterUsers } from "./filter.pipe";
+import {
+  FilterPipe,
+  FilterUsers,
+  FilterACHTransfer,
+  FilterGiftCard,
+  FilterBucksPurchased,
+  FilterConveniencePaid
+} from "./filter.pipe";
 
 import { Angular2CsvModule, Angular2CsvComponent } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
@@ -61,6 +68,7 @@ import {
   AchTransferComponent,
   DialogToShowACHDetails
 } from "./ach-transfer/ach-transfer.component";
+import { ConvenienceFeesPaidComponent } from "./convenience-fees-paid/convenience-fees-paid.component";
 
 @NgModule({
   declarations: [
@@ -79,11 +87,16 @@ import {
     TransationsComponent,
     FilterPipe,
     FilterUsers,
+    FilterGiftCard,
+    FilterACHTransfer,
+    FilterBucksPurchased,
+    FilterConveniencePaid,
     PurchasedBucksComponent,
     ChangePasswordComponent,
     ConvenienceFeesComponent,
     createConvenience,
-    AchTransferComponent
+    AchTransferComponent,
+    ConvenienceFeesPaidComponent
   ],
   imports: [
     BrowserModule,

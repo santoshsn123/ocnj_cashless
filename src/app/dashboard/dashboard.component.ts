@@ -14,16 +14,22 @@ export class DashboardComponent implements OnInit {
   payoutAmount;
   giftAmount;
   creditAmount;
+  convenienceFees;
+  adminCount;
 
-  MerchantCurrentPage: number = 1;
-  MerchantItemsPerPage: number = 5;
+  // MerchantCurrentPage: number = 1;
+  // MerchantItemsPerPage: number = 5;
+
   ngOnInit() {
     this.getAllStats();
   }
-
+  userTypes: string;
+  thismonthACH: boolean = false;
+  thismonthGiftCard: boolean = false;
+  thismonthPurchasedCredits: boolean = false;
+  convenienceFeesPaid: boolean = false;
   getAllStats = () => {
     this.transaction.getAllMerchants().subscribe(merchantCount => {
-      console.log(merchantCount);
       this.merchant = merchantCount;
       this.merchantCount = this.merchant.count;
       this.activeMerchants = this.merchant.rows;
@@ -43,7 +49,25 @@ export class DashboardComponent implements OnInit {
       this.creditAmount = amount;
       this.creditAmount = this.creditAmount.count;
     });
+
+    this.transaction.getAllConvenienceFeesPaid().subscribe(amount => {
+      this.convenienceFees = amount;
+      this.convenienceFees = this.convenienceFees.count.toFixed(2);
+    });
+    this.transaction.getAllAdminCount().subscribe(admin => {
+      // console.log(admin);
+      this.adminCount = admin;
+      this.adminCount = this.adminCount.count.count;
+    });
   };
 
   getActiveMerchants = () => {};
+
+  setValues = () => {
+    this.userTypes = "";
+    this.thismonthACH = false;
+    this.thismonthGiftCard = false;
+    this.thismonthPurchasedCredits = false;
+    this.convenienceFeesPaid = false;
+  };
 }

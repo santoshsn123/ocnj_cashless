@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 
 import { GiftCardService } from "../services/gift-card/gift-card.service";
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from "@angular/material";
@@ -16,6 +16,8 @@ export class GiftCardComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   loading: boolean = true;
+
+  @Input() dashboardGiftCard: boolean;
   constructor(
     private gift: GiftCardService,
     public dialog: MatDialog,
