@@ -35,6 +35,7 @@ export class UsersComponent implements OnInit {
   userType: string = "";
   activestatus = "";
   loading: boolean = true;
+  noUsers;
   @Input() dashboardData: string;
 
   constructor(
@@ -95,7 +96,7 @@ export class UsersComponent implements OnInit {
     this.showerrorMessage = "";
   }
   ActiveInactive = user => {
-    if (user.active_status == 1) {
+    if (user.activeStatus == 1) {
       if (confirm("Do you really want to Deactivate user?")) {
         this.updateStatus(user);
       }

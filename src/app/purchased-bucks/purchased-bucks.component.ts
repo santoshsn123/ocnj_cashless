@@ -15,6 +15,7 @@ export class PurchasedBucksComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   loading: boolean = true;
+  noBucks;
   @Input() dashboardPurchasedCredits: string;
   ngOnInit() {
     this.loading = true;

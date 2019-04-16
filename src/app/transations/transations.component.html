@@ -89,7 +89,7 @@
               <td>Description</td>
               <td>Date</td>
               <td>From</td>
-              <td>To</td>
+              <td>To (Company)</td>
             </tr>
           </thead>
           <tr
@@ -107,19 +107,27 @@
             "
           >
             <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
-            <td>{{ trans.transaction_id }}</td>
+            <td>{{ trans.transactionId }}</td>
             <td>{{ trans.amount }}</td>
             <td>{{ trans.description }}</td>
             <td>{{ trans.createdAt | date: "MM-dd-yyyy" }}</td>
-            <td>{{ trans.from_email }}</td>
-            <td>{{ trans.to_firstname }}</td>
+            <td>{{ trans.from.email }}</td>
+            <td>
+              {{
+                trans.to.user_bank_account
+                  ? trans.to.user_bank_account.companyName
+                  : ""
+              }}
+            </td>
           </tr>
         </table>
 
         <div class="loading_position">
           <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
         </div>
-        <ng-template #noTransactions> No Transactions Available </ng-template>
+        <ng-template *ngIf="!loading" #noTransactions>
+          No Transactions Available
+        </ng-template>
 
         <pagination-controls
           *ngIf="!loading"

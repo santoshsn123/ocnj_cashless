@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   ErrorMessage: string;
   message = "some Message";
+  loading: boolean = false;
   constructor(
     private router: Router,
     private data: DataService,
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     } else {
+      this.loading = true;
       this.user
         .submitLogin({
           email: this.registerForm.controls.email.value,
@@ -54,13 +56,15 @@ export class LoginComponent implements OnInit {
         })
         .subscribe(
           data => {
+            this.loading = false;
             this.ErrorMessage = "";
             this.data.setLoginDetails({ action: ACTION_LOGIN, user: data });
             this.router.navigate(["dashboard"]);
             localStorage.setItem("user", JSON.stringify(data));
           },
           error => {
-            console.log("Data :- ", error);
+            this.loading = false;
+            // console.log("Data :- ", error);
             if (
               error.message ==
               "Http failure response for (unknown url): 0 Unknown Error"

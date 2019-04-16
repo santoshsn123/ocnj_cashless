@@ -59,6 +59,9 @@
               let i = index
             "
           >
+            {{
+              showDataHere(ach)
+            }}
             <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
             <td>{{ ach.amount }}</td>
             <td>
@@ -81,7 +84,9 @@
         <div class="loading_position">
           <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
         </div>
-        <ng-template #noBucks>No Transaction Details Available</ng-template>
+        <ng-template *ngIf="!loading" #noBucks
+          >No Transaction Details Available</ng-template
+        >
         <pagination-controls
           id="achTransfer"
           *ngIf="!loading"

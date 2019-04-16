@@ -61,11 +61,13 @@ export class TransationsComponent implements OnInit {
   endDate;
   startDate;
   loading: boolean;
+  noTransactions;
   ngOnInit() {
     this.loading = true;
     this.getAllTransactions();
     this.getAllMerchants();
   }
+
   clickedFunction = () => {};
 
   getAllTransactions = () => {
@@ -108,22 +110,20 @@ export class TransationsComponent implements OnInit {
     );
   }
   filterTransactions = () => {
-    // console.log("Working : - ");
-    // this.transactions = this.filterpipe.transform(this.transactions, {
-    //   searchString: this.merchantName,
-    //   startDate: this.startDate,
-    //   endDate: this.endDate
-    // });
-  };
-  updateCalcs = ev => {
-    console.log(ev);
-  };
-
-  downloadTransactions = () => {
-    var data = this.filterpipe.transform(this.transactions, {
+    return this.filterpipe.transform(this.transactions, {
       searchString: this.merchantName,
       startDate: this.startDate,
       endDate: this.endDate
+    });
+  };
+
+  downloadTransactions = () => {
+    let data = this.filterTransactions();
+
+    data.map(dt => {
+      dt.from_firstname = dt.from.firstName;
+      dt.to_firstname = dt.to.firstName;
+      return dt;
     });
 
     this.options;
@@ -160,7 +160,7 @@ export class TransationsComponent implements OnInit {
       "description",
       "from_firstname",
       "to_firstname",
-      "transaction_id",
+      "transactionId",
       "updatedAt"
     ]
   };

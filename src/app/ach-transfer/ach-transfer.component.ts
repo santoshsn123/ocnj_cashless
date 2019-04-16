@@ -16,6 +16,7 @@ export class AchTransferComponent implements OnInit {
   downloadUrl;
   loading: boolean = false;
   showsuccessMessage;
+  noBucks;
   @Input() dashboardACH: string;
   constructor(
     private transaction: TransactionsService,
@@ -27,6 +28,10 @@ export class AchTransferComponent implements OnInit {
   ngOnInit() {
     this.getDetails();
   }
+
+  showDataHere = ach => {
+    console.log(ach);
+  };
 
   getDetails = () => {
     this.loading = true;

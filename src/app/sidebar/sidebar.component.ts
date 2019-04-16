@@ -48,6 +48,8 @@ export class SidebarComponent implements OnInit {
 
   logout() {
     localStorage.clear();
+    let currentUser = JSON.parse(localStorage.getItem("user"));
+    console.log(currentUser);
     this.router.navigate(["login"]);
   }
 }

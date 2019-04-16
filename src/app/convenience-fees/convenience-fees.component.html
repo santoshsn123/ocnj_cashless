@@ -92,7 +92,9 @@
         <div class="loading_position">
           <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
         </div>
-        <ng-template #noCards> No convenience Fees Added Yet </ng-template>
+        <ng-template *ngIf="!loading" #noCards>
+          No convenience Fees Added Yet
+        </ng-template>
 
         <pagination-controls
           *ngIf="!loading"

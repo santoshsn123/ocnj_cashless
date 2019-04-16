@@ -64,18 +64,18 @@ export class FilterUsers implements PipeTransform {
     }
     items = items.filter(it => {
       return searchText.type == "merchant"
-        ? it.is_merchant == 1
+        ? it.isMerchant == 1
           ? searchText.activeInactiveStatus == "active"
-            ? it.active_status == "1"
+            ? it.activeStatus == "1"
               ? it
               : null
             : it
           : null
         : searchText.type == "admin"
-        ? it.is_admin == 1
+        ? it.isAdmin == 1
           ? it
           : null
-        : it.is_merchant == 0 && it.is_admin !== 1
+        : it.isMerchant == 0 && it.isAdmin !== 1
         ? it
         : null;
     });

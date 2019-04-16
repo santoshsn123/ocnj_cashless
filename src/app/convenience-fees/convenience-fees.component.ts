@@ -15,6 +15,7 @@ export class ConvenienceFeesComponent implements OnInit {
   currentPage = 1;
   loading: boolean = false;
   showsuccessMessage: String = "";
+  noCards;
   constructor(private giftcard: GiftCardService, public dialog: MatDialog) {}
 
   ngOnInit() {

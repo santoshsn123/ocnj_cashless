@@ -15,6 +15,7 @@ export class ConvenienceFeesPaidComponent implements OnInit {
   endDate;
   showsuccessMessage: string = "";
   loading: boolean = false;
+  noCards;
 
   @Input() dashboardConvenienceFees: string;
   ngOnInit() {

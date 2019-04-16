@@ -16,6 +16,7 @@ export class GiftCardComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   loading: boolean = true;
+  noCards;
 
   @Input() dashboardGiftCard: boolean;
   constructor(
