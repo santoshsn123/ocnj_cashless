@@ -1,0 +1,108 @@
+<div class="row">
+  <ol class="breadcrumb">
+    <li>
+      <a href="#"> <em class="fa fa-home"></em> </a>
+    </li>
+    <li class="active">Convenience Fees Paid</li>
+  </ol>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Convenience Fees Paid</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default articles">
+      <div class="panel-heading">
+        Convenience Fees Paid Management
+
+        <ul class="pull-right panel-settings panel-button-tab-right">
+          <li class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="pull-right dropdown-toggle"
+              data-toggle="dropdown"
+              (click)="openDialog()"
+            >
+              <em class="fas fa-plus"></em>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="alert bg-success" *ngIf="showsuccessMessage" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em> {{ showsuccessMessage
+        }}<a
+          href="javascript:void(0);"
+          (click)="closeMessage()"
+          class="pull-right"
+          ><em class="fa fa-lg fa-close"></em
+        ></a>
+      </div>
+      <div class="panel-body articles-container">
+        <table class="table" *ngIf="conveniences && !loading; else noCards">
+          <tr>
+            <td>#</td>
+            <td>MinAmount</td>
+            <td>MaxAmount</td>
+            <td>Fee Rate (%)</td>
+            <td>Action</td>
+          </tr>
+          <tr
+            *ngFor="
+              let conv of (conveniences
+                | paginate
+                  : { itemsPerPage: itemsPerPage, currentPage: currentPage });
+              let i = index
+            "
+          >
+            <td>{{ itemsPerPage * (currentPage - 1) + i + 1 }}</td>
+            <td>{{ conv.amountMin }}</td>
+            <td>{{ conv.amountMax }}</td>
+            <td>{{ conv.rate }}</td>
+            <td>
+              <a
+                href="javascript:void(0);"
+                title="Edit "
+                (click)="editConv(conv)"
+                ><em class="fa fa-pencil-square"></em
+              ></a>
+              /
+              <a
+                href="javascript:void(0);"
+                title="Delete "
+                (click)="deleteConv(conv)"
+                ><em class="fa  fa-trash"></em
+              ></a>
+            </td>
+
+            <!-- <td>
+                <a
+                  href="javascript:void(0);"
+                  title="Delete User"
+                  (click)="deleteCard(card)"
+                  ><em class="fa  fa-trash"></em
+                ></a>
+              </td> -->
+          </tr>
+        </table>
+
+        <div class="loading_position">
+          <i *ngIf="loading" class="fa fa-refresh fa-spin icon_size"></i>
+        </div>
+        <ng-template *ngIf="!loading" #noCards>
+          No convenience Fees Added Yet
+        </ng-template>
+
+        <pagination-controls
+          *ngIf="!loading"
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
+    </div>
+
+    <div class="col-sm-12"></div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 import { DataService } from "../data.service";
 import { Observable } from "rxjs";
 import { UsersService } from "../services/users/users.service";
@@ -32,13 +32,20 @@ export class UsersComponent implements OnInit {
   showsuccessMessage: string = "";
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  userType: string = "";
+  activestatus = "";
+  loading: boolean = true;
+  noUsers;
+  @Input() dashboardData: string;
 
   constructor(
     private data: DataService,
     private user: UsersService,
     public dialog: MatDialog,
     private router: Router
-  ) {}
+  ) {
+    // console.log("dynamicdata : - ", this.dynamicdata);
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
@@ -61,7 +68,7 @@ export class UsersComponent implements OnInit {
 
   viewTransactions = user => {
     this.user.setUserData(user);
-    this.router.navigate(["posts"]);
+    this.router.navigate(["posts/" + user.uuid]);
   };
 
   showSuccessMessage = message => {
@@ -70,16 +77,27 @@ export class UsersComponent implements OnInit {
       this.closeMessage();
     }, 1800);
   };
+  showErrorMessage = message => {
+    this.showerrorMessage = message;
+    setTimeout(() => {
+      this.closeMessage();
+    }, 1800);
+  };
 
   ngOnInit() {
+    // console.log("dynamicdata init : - ", this.dashboardData);
+    this.userType = this.dashboardData;
+    this.loading = true;
     this.loadUsers();
+    this.activestatus = this.dashboardData ? "active" : "";
   }
   closeMessage() {
     this.showsuccessMessage = "";
+    this.showerrorMessage = "";
   }
   ActiveInactive = user => {
     if (user.activeStatus == 1) {
-      if (confirm("Do you really want to deactivate user?")) {
+      if (confirm("Do you really want to Deactivate user?")) {
         this.updateStatus(user);
       }
     } else {
@@ -97,21 +115,30 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.user.getAllUsers().subscribe(data => {
       this.users = data;
+      this.loading = false;
     });
   }
   deleteUser(user) {
-    if (confirm("Do you really want to delete this user ?")) {
-      this.user.deleteUser(user.uuid).subscribe(
-        data => {
-          this.loadUsers(); //loading Users after deleting users.
-          this.showerrorMessage = "";
-          this.showSuccessMessage("User Deleted successfully");
-        },
-        error => {
-          this.showerrorMessage = error.error.message;
-        }
-      );
+    if (user.uuid == JSON.parse(localStorage.getItem("user")).uuid) {
+      this.showErrorMessage("You can not Delete yourself!!");
+      return false;
+    }
+    if (user.bucks_amount) {
+      this.showErrorMessage("You can not Delete user having bucks in account");
     } else {
+      if (confirm("Do you really want to delete this user ?")) {
+        this.user.deleteUser(user.uuid).subscribe(
+          data => {
+            this.loadUsers(); //loading Users after deleting users.
+            this.showerrorMessage = "";
+            this.showSuccessMessage("User Deleted successfully");
+          },
+          error => {
+            this.showerrorMessage = error.error.message;
+          }
+        );
+      } else {
+      }
     }
   }
 
@@ -141,11 +168,13 @@ export class UsersComponent implements OnInit {
 export class DialogOverviewExampleDialog {
   registerForm: FormGroup;
   submitted = false;
-  isMerchant;
+  userType;
   passwordmissmatch: boolean = false;
   showBankingError: string;
   errorMessage: string;
   FetchedUser;
+  loading: boolean = false;
+
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
@@ -161,26 +190,36 @@ export class DialogOverviewExampleDialog {
       phone: ["", [Validators.required, Validators.minLength(10)]],
       firstName: ["", [Validators.required]],
       lastName: ["", [Validators.required]],
-      isMerchant: ["", [Validators.required]],
-      address: ["", [Validators.required]],
+      userType: ["", [Validators.required]],
+      // address: ["", [Validators.required]],
       userName: ["", [Validators.required]],
       cpassword: ["", [Validators.required]],
+      isMerchant: ["", []],
       bankRoutingNo: ["", []],
-      bankAccountNo: ["", []]
+      bankAccountNo: ["", []],
+      bankAccountType: ["", []],
+      companyName: ["", []]
     });
 
     //Fetch data to display in form to update
     if (this.data.type == "edit") {
       this.user.getSingleUser(this.data.uuid).subscribe(FetchedUser => {
         this.FetchedUser = FetchedUser;
+        console.log(FetchedUser);
         this.registerForm.patchValue({
           email: this.FetchedUser.user.email,
           password: this.FetchedUser.user.password,
           phone: this.FetchedUser.user.phone,
           firstName: this.FetchedUser.user.firstName,
           lastName: this.FetchedUser.user.lastName,
-          isMerchant: this.FetchedUser.user.isMerchant ? "true" : "false",
-          address: this.FetchedUser.location.localAddress,
+          userType: this.FetchedUser.user.isMerchant
+            ? "Merchant"
+            : this.FetchedUser.user.isAdmin
+            ? "Admin"
+            : "User",
+          // isMerchant:
+          //   this.FetchedUser.user.userType == "Merchant" ? "true" : "false",
+          // address: this.FetchedUser.location.localAddress,
           userName: this.FetchedUser.user.userName,
           cpassword: this.FetchedUser.user.cpassword,
           bankRoutingNo: this.FetchedUser.bankdetails
@@ -188,6 +227,12 @@ export class DialogOverviewExampleDialog {
             : "",
           bankAccountNo: this.FetchedUser.bankdetails
             ? this.FetchedUser.bankdetails.bankAccountNo
+            : "",
+          bankAccountType: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.bankAccountType
+            : "",
+          companyName: this.FetchedUser.bankdetails
+            ? this.FetchedUser.bankdetails.companyName
             : ""
         });
         this.registerForm.get("password").clearValidators();
@@ -215,7 +260,10 @@ export class DialogOverviewExampleDialog {
 
   onSubmit() {
     this.submitted = true;
+    this.registerForm.value.isMerchant =
+      this.registerForm.value.userType == "Merchant" ? true : false;
 
+    console.log(this.registerForm.value);
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       var value = this.checkPasswords();
@@ -229,23 +277,25 @@ export class DialogOverviewExampleDialog {
         return;
       }
 
-      if (this.isMerchant == "true") {
+      if (this.userType == "Merchant") {
         if (
           !this.registerForm.value.bankRoutingNo ||
-          !this.registerForm.value.bankAccountNo
+          !this.registerForm.value.bankAccountNo ||
+          !this.registerForm.value.bankAccountType
         ) {
-          this.showBankingError = "Please enter Bank Details.";
+          this.showBankingError = "Please enter all bank details.";
           return;
         } else {
           this.showBankingError = "";
           this.registerForm.value.accountDetails = {
             bankRoutingNo: this.registerForm.value.bankRoutingNo,
-            bankAccountNo: this.registerForm.value.bankAccountNo
+            bankAccountNo: this.registerForm.value.bankAccountNo,
+            bankAccountType: this.registerForm.value.bankAccountType,
+            companyName: this.registerForm.value.companyName
           };
           this.saveUser();
         }
       } else {
-        this.registerForm.value.isMerchant = false;
         this.saveUser();
         // this.user.saveUser(this.registerForm.value).subscribe(
         //   data => {
@@ -262,12 +312,17 @@ export class DialogOverviewExampleDialog {
   }
 
   saveUser = () => {
+    this.loading = true;
+    this.errorMessage = "";
+    console.log(this.registerForm.value);
     if (this.data.type == "add") {
       this.user.saveUser(this.registerForm.value).subscribe(
         data => {
           this.dialogRef.close("add");
+          this.loading = false;
         },
         error => {
+          this.loading = false;
           this.errorMessage = error.error.message;
         }
       );
@@ -276,9 +331,11 @@ export class DialogOverviewExampleDialog {
         .editUser(this.registerForm.value, this.FetchedUser.user.uuid)
         .subscribe(
           data => {
+            this.loading = false;
             this.dialogRef.close("edit");
           },
           error => {
+            this.loading = false;
             this.errorMessage = error.error.message;
           }
         );

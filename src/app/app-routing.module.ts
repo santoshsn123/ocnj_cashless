@@ -10,6 +10,9 @@ import { GiftCardComponent } from "./gift-card/gift-card.component";
 import { TransationsComponent } from "./transations/transations.component";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
+import { ConvenienceFeesComponent } from "./convenience-fees/convenience-fees.component";
+import { AchTransferComponent } from "./ach-transfer/ach-transfer.component";
+import { ConvenienceFeesPaidComponent } from "./convenience-fees-paid/convenience-fees-paid.component";
 
 const routes: Routes = [
   {
@@ -25,7 +28,7 @@ const routes: Routes = [
     component: DetailsComponent
   },
   {
-    path: "posts",
+    path: "posts/:id",
     component: PostsComponent
   },
   {
@@ -37,7 +40,7 @@ const routes: Routes = [
     component: TransationsComponent
   },
   {
-    path: "purchasedBucks",
+    path: "purchasedCredit",
     component: PurchasedBucksComponent
   },
   {
@@ -47,7 +50,20 @@ const routes: Routes = [
   {
     path: "changePassword",
     component: ChangePasswordComponent
-  }
+  },
+  {
+    path: "convenienceFees",
+    component: ConvenienceFeesComponent
+  },
+  {
+    path: "convenienceFeesPaid",
+    component: ConvenienceFeesPaidComponent
+  },
+  {
+    path: "achTransfer",
+    component: AchTransferComponent
+  },
+  { path: "**", component: DashboardComponent }
 ];
 
 @NgModule({

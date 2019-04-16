@@ -22,7 +22,7 @@
         <li class="dropdown">
           <a
             title="Change Password"
-            class="dropdown-toggle count-info"
+            class="dropdown-toggle count-info adjust-key"
             data-toggle="dropdown"
             href="#"
             routerLink="changePassword"
@@ -133,7 +133,7 @@
       </div>
     -->
     <div class="profile-usertitle">
-      <div class="profile-usertitle-name">Username</div>
+      <div class="profile-usertitle-name">{{ username }}</div>
       <div class="profile-usertitle-status">
         <!-- <span class="indicator label-success"></span>Online -->
       </div>
@@ -171,8 +171,23 @@
       >
     </li>
     <li routerLinkActive="active">
-      <a href="#" routerLink="purchasedBucks">
-        <em class="fa fa-clone">&nbsp;</em> Purchased Bucks</a
+      <a href="#" routerLink="purchasedCredit">
+        <em class="fa fa-clone">&nbsp;</em>Purchased Credits</a
+      >
+    </li>
+    <li routerLinkActive="active">
+      <a href="#" routerLink="convenienceFees">
+        <em class="fas fa-money-check-alt">&nbsp;</em>Convenience Fees Rate</a
+      >
+    </li>
+    <li routerLinkActive="active">
+      <a href="#" routerLink="achTransfer">
+        <em class="fas fa-dolly">&nbsp;</em>ACH Transfer</a
+      >
+    </li>
+    <li routerLinkActive="active">
+      <a href="#" routerLink="convenienceFeesPaid">
+        <em class="fas fa-balance-scale ">&nbsp;</em>Convenience Fees Paid</a
       >
     </li>
     <!--

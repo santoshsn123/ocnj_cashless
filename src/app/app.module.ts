@@ -44,13 +44,31 @@ import { TransationsComponent } from "./transations/transations.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 
-import { FilterPipe } from "./filter.pipe";
+import {
+  FilterPipe,
+  FilterUsers,
+  FilterACHTransfer,
+  FilterGiftCard,
+  FilterBucksPurchased,
+  FilterConveniencePaid
+} from "./filter.pipe";
 
-import { Angular2CsvModule } from "angular2-csv";
+import { Angular2CsvModule, Angular2CsvComponent } from "angular2-csv";
 import { PurchasedBucksComponent } from "./purchased-bucks/purchased-bucks.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 import { AuthenticationServiceService } from "./services/Autherisation/authentication-service.service";
+import {
+  ConvenienceFeesComponent,
+  createConvenience
+} from "./convenience-fees/convenience-fees.component";
+
+import { MatTabsModule } from "@angular/material";
+import {
+  AchTransferComponent,
+  DialogToShowACHDetails
+} from "./ach-transfer/ach-transfer.component";
+import { ConvenienceFeesPaidComponent } from "./convenience-fees-paid/convenience-fees-paid.component";
 
 @NgModule({
   declarations: [
@@ -62,13 +80,23 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
     LoginComponent,
     DashboardComponent,
     DialogOverviewExampleDialog,
+    DialogToShowACHDetails,
     createGiftCard,
     GooglePlacesDirective,
     GiftCardComponent,
     TransationsComponent,
     FilterPipe,
+    FilterUsers,
+    FilterGiftCard,
+    FilterACHTransfer,
+    FilterBucksPurchased,
+    FilterConveniencePaid,
     PurchasedBucksComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ConvenienceFeesComponent,
+    createConvenience,
+    AchTransferComponent,
+    ConvenienceFeesPaidComponent
   ],
   imports: [
     BrowserModule,
@@ -85,18 +113,31 @@ import { AuthenticationServiceService } from "./services/Autherisation/authentic
     MatAutocompleteModule,
     Angular2CsvModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [
     MatDatepickerModule,
+    Angular2CsvComponent,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationServiceService,
       multi: true
-    }
+    },
+    FilterPipe
   ],
   bootstrap: [AppComponent],
-  entryComponents: [DialogOverviewExampleDialog, createGiftCard],
-  exports: [DialogOverviewExampleDialog, createGiftCard]
+  entryComponents: [
+    DialogOverviewExampleDialog,
+    createGiftCard,
+    createConvenience,
+    DialogToShowACHDetails
+  ],
+  exports: [
+    DialogOverviewExampleDialog,
+    createGiftCard,
+    createConvenience,
+    DialogToShowACHDetails
+  ]
 })
 export class AppModule {}

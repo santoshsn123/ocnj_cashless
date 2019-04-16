@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 
 import { GiftCardService } from "../services/gift-card/gift-card.service";
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from "@angular/material";
 import { DialogData } from "../users/users.component";
-
+import { Angular2CsvComponent } from "angular2-csv";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-gift-card",
   templateUrl: "./gift-card.component.html",
@@ -14,16 +15,26 @@ export class GiftCardComponent implements OnInit {
   giftCards;
   itemsPerPage: number = 10;
   currentPage: number = 1;
-  constructor(private gift: GiftCardService, public dialog: MatDialog) {}
+  loading: boolean = true;
+  noCards;
+
+  @Input() dashboardGiftCard: boolean;
+  constructor(
+    private gift: GiftCardService,
+    public dialog: MatDialog,
+    private download: Angular2CsvComponent,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getAllCards();
   }
 
   getAllCards = () => {
     this.gift.getAllCards().subscribe(data => {
-      console.log(data);
       this.giftCards = data;
+      this.loading = false;
     });
   };
 
@@ -34,6 +45,9 @@ export class GiftCardComponent implements OnInit {
         this.showSuccessMessage("Card deleted successfully");
       });
     }
+  };
+  gotoUserDetails = id => {
+    this.router.navigate(["posts/" + id]);
   };
 
   showSuccessMessage = message => {
@@ -59,6 +73,46 @@ export class GiftCardComponent implements OnInit {
       }
     });
   }
+
+  downloadAllCards = () => {
+    this.options;
+    this.download.filename = "GiftCards";
+    this.download.data = this.giftCards;
+    this.download.options = this.options;
+    this.download.generateCsv();
+  };
+
+  options = {
+    fieldSeparator: ",",
+    quoteStrings: '"',
+    decimalseparator: ".",
+    showLabels: false,
+    filename: "GiftCards",
+    headers: [
+      "Gift Card Code",
+      "Created Time",
+      "Expiry Time",
+      "Created By First Name",
+      "Created By Last Name",
+      "Redeem Status",
+      "Used By First Name",
+      "Used By Last Name"
+    ],
+    showTitle: true,
+    title: "GiftCards",
+    useBom: false,
+    removeNewLines: true,
+    keys: [
+      "unique_code",
+      "createdAt",
+      "gift_expiry_date",
+      "p_firstname",
+      "p_lastname",
+      "redeemed_status",
+      "used_firstname",
+      "used_firstname"
+    ]
+  };
 }
 
 /*------------------Popup code--------------------*/
@@ -77,6 +131,7 @@ export class createGiftCard {
   FetchedUser;
   amount;
   noOfCards;
+  amountError;
   // accountDetails
   constructor(
     public dialogRef: MatDialogRef<createGiftCard>,
@@ -85,18 +140,32 @@ export class createGiftCard {
   ) {}
 
   onSubmit = () => {
-    let object = {
-      noOfCards: this.noOfCards,
-      amount: this.amount,
-      uuid: JSON.parse(localStorage.getItem("user")).uuid
-    };
-    this.gift.createGiftCards(object).subscribe(
-      data => {
-        this.dialogRef.close("add");
-      },
-      error => {
-        this.errorMessage = error.error.message;
-      }
-    );
+    this.amountError = "";
+    if (!this.noOfCards || !this.amount) {
+      this.amountError = "Please enter values before proceed";
+      return false;
+    }
+    if (this.noOfCards < 1) {
+      this.amountError = "Please Enter valid card number";
+      return false;
+    }
+    if (this.amount < 25) {
+      this.amountError = "Please Enter amount more than 25";
+    } else {
+      this.amountError = "";
+      let object = {
+        noOfCards: this.noOfCards,
+        amount: this.amount,
+        uuid: JSON.parse(localStorage.getItem("user")).uuid
+      };
+      this.gift.createGiftCards(object).subscribe(
+        data => {
+          this.dialogRef.close("add");
+        },
+        error => {
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
   };
 }

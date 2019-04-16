@@ -48,10 +48,37 @@ export class UsersService {
       this.baseUrl + "/v1/admin/completeTransactionForUser/" + uuid
     );
   };
+
   changePassword = (Object, uuid) => {
     return this.http.post(
       this.baseUrl + "/v1/admin/changePassword/" + uuid,
       Object
     );
+  };
+
+  getBucksTransferDetails = uuid => {
+    return this.http.get(this.baseUrl + "/v1/admin/userBucksTransfer/" + uuid);
+  };
+
+  getGiftCardPurchaseDetails = uuid => {
+    return this.http.get(
+      this.baseUrl + "/v1/admin/getGiftCardPurchaseDetails/" + uuid
+    );
+  };
+
+  getMerchantACHTransferDetails = uuid => {
+    return this.http.get(
+      this.baseUrl + "/v1/admin/getMerchantACHTransferDetails/" + uuid
+    );
+  };
+
+  getUserPurchasedBucks = uuid => {
+    return this.http.get(
+      this.baseUrl + "/v1/admin/getUserPurchasedBucks/" + uuid
+    );
+  };
+
+  getSpentGiftCards = uuid => {
+    return this.http.get(this.baseUrl + "/v1/admin/getSpentGiftCards/" + uuid);
   };
 }

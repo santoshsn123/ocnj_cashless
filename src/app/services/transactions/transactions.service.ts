@@ -17,4 +17,34 @@ export class TransactionsService {
   getPurchasedBucks = () => {
     return this.http.get(this.baseUrl + "/v1/admin/pruchasedBucks");
   };
+
+  getAllMerchants = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/activeMerchant");
+  };
+  getMTDMerchantPayout = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/MTDMerchantPayouts");
+  };
+
+  getMTDGiftCardPurchased = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/MTDGiftCardsPurchased");
+  };
+  getAllConvenienceFeesPaid = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/getAllConvenienceFeesPaid");
+  };
+
+  getMTDCreditPurchased = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/MTDCreditPurchased");
+  };
+  getACHTransactionDetails = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/getACHTransferDetails");
+  };
+  getDataBeforeTransactions = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/getDataBeforeTransactions");
+  };
+  generateACHTransfer = () => {
+    return this.http.get(this.baseUrl + "/v1/ach/createFile");
+  };
+  getAllAdminCount = () => {
+    return this.http.get(this.baseUrl + "/v1/admin/getAllAdminCount");
+  };
 }

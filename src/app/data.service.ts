@@ -10,8 +10,8 @@ import { Router } from "@angular/router";
 })
 export class DataService {
   dataString: string;
-  baseUrl: string = "http://localhost:3000/api";
-  // baseUrl: string = "http://54.245.154.250:3000/api";
+  // baseUrl: string = "http://localhost:3000/api";
+  baseUrl: string = "http://54.245.154.250:3000/api";
   constructor(
     private http: HttpClient,
     private store: Store<any>,
@@ -27,7 +27,6 @@ export class DataService {
   // getPosts() {
   //   return this.http.get('https://jsonplaceholder.typicode.com/posts')
   // }
-
   getLoginState() {
     return this.store.select("appReducer");
   }

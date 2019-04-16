@@ -8,18 +8,48 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { Angular2CsvModule } from "angular2-csv";
+import { Angular2CsvComponent } from "angular2-csv";
 import { DataService } from "../data.service";
+import { FilterPipe } from "../filter.pipe";
+
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from "@angular/material/core";
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: "LL"
+  },
+  display: {
+    dateInput: "LL",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY"
+  }
+};
 
 @Component({
   selector: "app-transations",
   templateUrl: "./transations.component.html",
-  styleUrls: ["./transations.component.scss"]
+  styleUrls: ["./transations.component.scss"],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class TransationsComponent implements OnInit {
   constructor(
     private trans: TransactionsService,
     private user: UsersService,
-    private dataservice: DataService
+    private dataservice: DataService,
+    private download: Angular2CsvComponent,
+    private filterpipe: FilterPipe
   ) {}
 
   transactions;
@@ -30,18 +60,24 @@ export class TransationsComponent implements OnInit {
   merchantName;
   endDate;
   startDate;
+  loading: boolean;
+  noTransactions;
   ngOnInit() {
+    this.loading = true;
     this.getAllTransactions();
     this.getAllMerchants();
   }
+
   clickedFunction = () => {};
 
   getAllTransactions = () => {
     this.trans.getAllTransactions().subscribe(
       data => {
         this.transactions = data;
+        this.loading = false;
       },
       error => {
+        this.loading = false;
         this.dataservice.checkAuthentication(error);
       }
     );
@@ -73,13 +109,38 @@ export class TransationsComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  clickedHere = () => {};
+  filterTransactions = () => {
+    return this.filterpipe.transform(this.transactions, {
+      searchString: this.merchantName,
+      startDate: this.startDate,
+      endDate: this.endDate
+    });
+  };
+
+  downloadTransactions = () => {
+    let data = this.filterTransactions();
+
+    data.map(dt => {
+      dt.from_firstname = dt.from.firstName;
+      dt.to_firstname = dt.to.firstName;
+      return dt;
+    });
+
+    this.options;
+    this.download.filename = "Transactions";
+    this.download.data = data; //this.transactions;
+    this.download.options = this.options;
+    this.download.generateCsv();
+
+    // console.log(data);
+  };
 
   options = {
     fieldSeparator: ",",
     quoteStrings: '"',
     decimalseparator: ".",
     showLabels: false,
+    filename: "Transactions",
     headers: [
       "Amount",
       "CreatedAt",
@@ -90,7 +151,7 @@ export class TransationsComponent implements OnInit {
       "UpdatedAt"
     ],
     showTitle: true,
-    title: "asfasf",
+    title: "Transactions",
     useBom: false,
     removeNewLines: true,
     keys: [
@@ -99,7 +160,7 @@ export class TransationsComponent implements OnInit {
       "description",
       "from_firstname",
       "to_firstname",
-      "transaction_id",
+      "transactionId",
       "updatedAt"
     ]
   };
